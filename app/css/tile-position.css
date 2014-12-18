@@ -1,0 +1,97 @@
+.cell{
+    /*float: left;*/
+    background-color: #fff;
+    box-sizing: border-box;
+    /*margin: 1vw;*/
+}
+.normal.cell, .normal.tile{
+    width: 16vw;
+    height: 16vw;
+}
+.easy.cell, .easy.tile{
+    width: 13vw;
+    height: 13vw;
+}
+.hard.cell, .hard.tile{
+    width: 20.5vw;
+    height: 20.5vw;
+}
+
+.x0{
+    top: 1vw;
+}
+.y0{
+    left: 1vw;
+}
+.easy.x1{
+    top:16vw;
+}
+.easy.y1{
+    left:16vw;
+}
+.easy.x2{
+    top: 31vw;
+}
+.easy.y2{
+    left: 31vw;
+}
+.easy.x3{
+    top: 46vw;
+}
+.easy.y3{
+    left: 46vw;
+}
+.easy.x4{
+    top: 61vw;
+}
+.easy.y4{
+    left: 61vw;
+}
+.easy.x5{
+    top: 76vw;
+}
+.easy.y5{
+    left: 76vw;
+}
+.normal.x1{
+    top:19vw;
+}
+.normal.y1{
+    left:19vw;
+}
+.normal.x2{
+    top: 37vw;
+}
+.normal.y2{
+    left: 37vw;
+}
+.normal.x3{
+    top: 55vw;
+}
+.normal.y3{
+    left: 55vw;
+}
+.normal.x4{
+    top: 73vw;
+}
+.normal.y4{
+    left: 73vw;
+}
+.hard.x1{
+    top:23.5vw;
+}
+.hard.y1{
+    left:23.5vw;
+}
+.hard.x2{
+    top: 46vw;
+}
+.hard.y2{
+    left: 46vw;
+}
+.hard.x3{
+    top: 68.5vw;
+}
+.hard.y3{
+    left: 68.5vw;
+}

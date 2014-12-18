@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link href="css/app.css" rel="stylesheet">
+    <link href="css/tile-position.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Color Match</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body >
+<div class="container-fluid page-header text-center">ColorMatch 2048</div>
+<div class="while-loading text-center"><img src="loading.gif"/></div>
+<div class="game-container" ng-controller="gameController" ng-cloak class="wait-for-loading">
+    <div class="game-header">
+        <div class="col-xs-7 btn-group-sm text-center">
+            <button type="button" class="btn-sm" ng-click="startGame()">New Game</button>
+            <button type="button" class="btn-sm" ng-click="chooseDiff()">Choose Diff</button>
+        </div>
+        <div class="col-xs-5 text-center score-container">
+            <span class="score">score: {{game.score}}</span><br/>
+            <span class="score">best score: {{bestScore}}</span>
+        </div>
+    </div>
+    <div class="playground">
+        <div class="tiles-container">
+            <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index).x +' '+ getCellClasses($index).y">{{$index}}</div>
+        </div>
+        <div class="tiles-container">
+            <div class="tile animate" ng-repeat="tile in game.tilesCollection track by $index" tile="tile" ng-class="difficulty">
+                <div class="next-tile" ng-style="{'background-color':tile.nextColor}" ng-if="tile.nextColor"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-footer container-fluid">
+        <div class="current-game rainbow" game="game" best-score="bestScore">
+
+        </div>
+    </div>
+    <!--<button type="button" ng-click="addTile()" style="margin-top: 400px">Добавить плитку</button>-->
+</div>
+<script type="text/javascript" src="js/_lib/require.js" data-main="js/init"></script>
+</body>
+</html>
