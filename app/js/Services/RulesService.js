@@ -5,7 +5,24 @@ define([], function(){
 
     function rulesService(){
         var side = 5;
-        var colors = ['#f00', '#f80', '#ff0', '#8f0', '#0f0', '#0f8', '#0ff', '#08f', '#00f', '#80f', '#f0f'];
+        var colors = [
+            '#e9e162',
+            '#EAA700',
+            '#D85E2B',
+            '#AB629A',
+            '#E46077',
+            '#FA97C6',
+            '#E67D12',
+            '#C13621',
+            '#003F69',
+            '#047ED1',
+            '#02494F',
+            '#34AC55',
+            '#87E1DF',
+            '#3C1690',
+            '#f00',
+            '#ff0'
+        ];
         return {
             getSize: function(){
                 return side;

@@ -37,5 +37,5 @@ requirejs.config({
 
 require(['injector'], function(){
     angular.bootstrap(document.body, ['colorMatch']);
-    $('div.while-loading').animate({opacity: 0}, 100);
+    $('div.while-loading').animate({opacity: 0, 'z-index': 0}, 100);
 });

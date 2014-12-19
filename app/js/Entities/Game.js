@@ -3,8 +3,10 @@
  */
 define([], function(){
 
-    function GameService(swipe, TileEntityService){
+    function GameService(swipe, TileEntityService, SoundsService){
         Game.prototype.generateTile = function(needApply){
+            this.movedTiles = false;
+            this.mergedTiles = false;
             var tilePos = this.getTilePos();
             if(tilePos === false) return this.endGame();
             console.log('got tile: ', tilePos);
@@ -34,53 +36,42 @@ define([], function(){
         Game.prototype.start = function(){
             this.score = 0;
             this.generateTile();
-            this.bindEvents();
+            //this.bindEvents();
         }
 
-        Game.prototype.bindEvents = function(){
-            var game = this;
-            $('html').on('keydown', function(e){
-                if(e.which < 37 || e.which > 40) return;
-                switch(e.which){
-                    case 37: game.move('left');
-                        break;//left
-                    case 38: game.move('up');
-                        break;//up
-                    case 39: game.move('right');
-                        break;//right
-                    case 40: game.move('down');
-                        break;//down
-                }
-            })
-            var startX, startY;
-            $('div.playground').on('touchstart', function(e){
-                e.preventDefault();
-            });
-            swipe.bind($('div.playground'), {
-                start: function(e){
-                    console.log('starting swipe: ', e)
-                    startX = e.x;
-                    startY = e.y;
-                },
-                move: function(e){
-
-
-                },
-                end: function(e){
-                    var difX = startX - e.x,
-                        difY = startY - e.y;
-
-                    if(Math.abs(difX) > Math.abs(difY)){
-                        difX > 0 ? game.move('left') : game.move('right');
-                    }else{
-                        difY > 0 ? game.move('up') : game.move('down');
-                    }
-                },
-                cancel: function(e){
-
-                }
-            })
-        }
+        //Game.prototype.bindEvents = function(){
+        //
+        //    var game = this, startX, startY;
+        //    $('html').off('keydown').on('keydown', function(e){
+        //        if(e.which < 37 || e.which > 40) return;
+        //        switch(e.which){
+        //            case 37: game.move('left');
+        //                break;//left
+        //            case 38: game.move('up');
+        //                break;//up
+        //            case 39: game.move('right');
+        //                break;//right
+        //            case 40: game.move('down');
+        //                break;//down
+        //        }
+        //    })
+        //    swipe.bind($('div.playground'), {
+        //        start: function(e){
+        //            startX = e.x;
+        //            startY = e.y;
+        //        },
+        //        end: function(e){
+        //            var difX = startX - e.x,
+        //                difY = startY - e.y;
+        //
+        //            if(Math.abs(difX) > Math.abs(difY)){
+        //                difX > 0 ? game.move('left') : game.move('right');
+        //            }else{
+        //                difY > 0 ? game.move('up') : game.move('down');
+        //            }
+        //        }
+        //    })
+        //}
 
         Game.prototype.move = function(direction){
             var grid = [], length, i, j;
@@ -113,14 +104,25 @@ define([], function(){
             for(i = 0; i < this.tilesCollection.length; i++){
                 this.tilesCollection[i].alreadyGrows = false;
             }
-            this.render();
-            this.generateTile(1);
+            if(this.movedTiles || this.mergedTiles){
+                if(this.mergedTiles){
+                    SoundsService.play('move.ogg');
+                }else{
+                    SoundsService.play('merge.ogg')
+                }
+                this.render();
+                this.generateTile(1);
+            }else{
+                SoundsService.play('dry-shot.ogg');
+            }
+
         }
 
         Game.prototype.analyzeLine = function(line){
-            var tile, nextTile, i, j, isMoved;
+            var tile, nextTile, i, j, isMoved, indexBefore;
             for(i = 0; i < line.length; i++){
                 if(tile = this.getTile(line[i])){
+                    var indexBefore = tile.index;
                     for(j = i - 1; j >= 0; j--){
                         if(nextTile = this.getTile(line[j])){
                             if(nextTile.colorN === tile.colorN && !nextTile.alreadyGrows){
@@ -135,13 +137,18 @@ define([], function(){
                         }
                     }
                     if(!isMoved) tile.index = line[0];
+                    if(indexBefore !== tile.index) this.movedTiles = true;
                 }
             }
         }
 
         Game.prototype.mergeTiles = function(baseTile, absorbedTile){
+            this.mergedTiles = true;
             baseTile.growsUp();
-            this.score += baseTile.colorN;
+            if(baseTile.colorN > this.maxColorN) {
+                this.maxColorN = baseTile.colorN;
+            }
+            this.score += baseTile.colorN * (10 - this.size);
             absorbedTile.index = baseTile.index;
             absorbedTile.absorbed = true;
         }
@@ -168,7 +175,7 @@ define([], function(){
             this.scope.$apply();
             this.removeAbsorbed();
             console.log(this);
-        }
+        };
 
         function Game(scope){
             this.tilesCollection = [];
@@ -178,6 +185,7 @@ define([], function(){
             this.cellCount = scope.boardSize;
             this.size = Math.sqrt(scope.boardSize);
             this.matrix = [];
+            this.maxColorN = 0;
             for(var i = 0; i < this.size; i++){
                 this.matrix.push(new Array());
                 for(var j = 0; j < this.size; j++){
@@ -193,7 +201,9 @@ define([], function(){
         }
     }
 
-
+    function getRecordScore(){
+        return 123;
+    }
 
 
 

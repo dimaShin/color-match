@@ -4,7 +4,12 @@
 define([''], function(){
 
     function GameController($scope, rules, swipe, GameEntityService){
-        console.log('swipe: ', swipe);
+
+        $scope.game = {};
+        $scope.recordScore = getRecordScore();
+        $scope.recordColor = getRecordColor();
+        $scope.colors = rules.getColors();
+        console.log('recordColor: ', $scope.recordColor);
         var diffClasses = {
             4: 'hard',
             5: 'normal',
@@ -40,7 +45,42 @@ define([''], function(){
                 y: 'y' + y
             };
         }
+        $scope.$watch(
+            function scoreWatcher($scope){
+                return $scope.game.score;
+            },
+            function(newValue){
+                if(newValue > $scope.recordScore) $scope.recordScore = newValue;
+            }
+        );
+
+        $scope.$watch(
+            function maxColorWatcher($scope){
+                return $scope.game.maxColorN;
+            },
+            function(newValue){
+                if(!newValue) newValue = 1;
+                if(newValue > $scope.recordColor){
+                    $scope.recordColor = newValue;
+                    if(window.localStorage){
+                        window.localStorage.recordColor = newValue;
+                    }
+                }
+            }
+        )
+
+
+    }
+    function getRecordScore(){
+        return 123;
     }
 
+    function getRecordColor(){
+        if(window.localStorage && window.localStorage.recordColor){
+            return window.localStorage.recordColor;
+        }else{
+            return 1;
+        }
+    }
     return GameController;
 })

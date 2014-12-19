@@ -1,10 +1,12 @@
-﻿var app = require('http').createServer(handler);
+﻿console.log('starting http server');
+var app = require('http').createServer(handler);
 //var io = require('socket.io')(app);
 var fs = require('fs');
 
-app.listen(8080);
+app.listen(8000);
 
 function handler (req, res) {
+
     var url = req.url;
     var mimeTypes = {
         js: 'text/javascript',
@@ -12,7 +14,7 @@ function handler (req, res) {
         gif: 'image/gif',
         png: 'image/png',
         html: 'text/html',
-        'ogg': 'audio/ogg'
+        ogg: 'audio/ogg'
     };
     if(url.match(/favicon/)) return;
     if(!url.match(/\.\w{1,4}$/i)){
@@ -22,19 +24,24 @@ function handler (req, res) {
         var dotIndex = url.lastIndexOf('.') + 1;
         if(dotIndex !== 0){
             var ext  = url.substr(dotIndex);
-            if(ext === 'map') return;
+            //if(ext === 'map') return;
             var mimeType = mimeTypes[ext];
             if(!mimeType) mimeType = 'text/plain';
         }
 
     }
+    console.log('got req: ', url);
     fs.readFile(url,
         function (err, data) {
             if (err) {
+                console.log('err: ', err);
                 res.writeHead(500);
                 return res.end('Error loading ');
             }
-            res.writeHead(200, {'Content-type': mimeType});
+            res.writeHead(200, {
+                'Content-type': mimeType,
+                'Content-length': data.length
+            });
             res.end(data);
         });
 }

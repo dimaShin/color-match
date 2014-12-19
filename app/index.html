@@ -8,21 +8,21 @@
     <title>Color Match</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body >
+<body>
 <div class="container-fluid page-header text-center">ColorMatch 2048</div>
 <div class="while-loading text-center"><img src="loading.gif"/></div>
-<div class="game-container" ng-controller="gameController" ng-cloak class="wait-for-loading">
+<div ng-controller="gameController" ng-cloak class="game-container wait-for-loading">
     <div class="game-header">
         <div class="col-xs-7 btn-group-sm text-center">
             <button type="button" class="btn-sm" ng-click="startGame()">New Game</button>
-            <button type="button" class="btn-sm" ng-click="chooseDiff()">Choose Diff</button>
+            <button type="button" class="btn-sm" ng-click="chooseDiff()">Difficulty</button>
         </div>
         <div class="col-xs-5 text-center score-container">
             <span class="score">score: {{game.score}}</span><br/>
-            <span class="score">best score: {{bestScore}}</span>
+            <span class="score">best score: {{recordScore}}</span>
         </div>
     </div>
-    <div class="playground">
+    <div class="playground" game="game">
         <div class="tiles-container">
             <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index).x +' '+ getCellClasses($index).y">{{$index}}</div>
         </div>
@@ -33,10 +33,13 @@
         </div>
     </div>
 
-    <div class="game-footer container-fluid">
-        <div class="current-game rainbow" game="game" best-score="bestScore">
-
-        </div>
+    <div class="game-footer container-fluid rainbow">
+        <img src="/pointer-down.png" class="color-pointer" max-color-n="recordColor" top="0"/>
+        <div class="rainbow-part"
+             ng-repeat="color in colors"
+             ng-if="$index < colors.length - 1"
+             color-n = $index></div>
+        <img src="/pointer.png" class="color-pointer" max-color-n="game.maxColorN" top="20"/>
     </div>
     <!--<button type="button" ng-click="addTile()" style="margin-top: 400px">Добавить плитку</button>-->
 </div>

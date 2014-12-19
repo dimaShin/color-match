@@ -11,13 +11,16 @@ define([], function(){
         }
 
         Tile.prototype.growsUp = function(){
-            this.color = rules.getColors()[++this.colorN]
+            if(rules.getColors().length - this.colorN > 1){
+                this.color = rules.getColors()[++this.colorN];
+            }else{
+            }
             this.alreadyGrows = true;
-        }
+        };
 
         Tile.prototype.getNextColor = function(){
             return rules.getColors()[this.colorN + 1];
-        }
+        };
 
         return {
             getTile: function (index) {

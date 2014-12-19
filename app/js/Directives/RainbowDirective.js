@@ -8,8 +8,7 @@ define([], function(){
         return{
             restrict: 'C',
             scope: {
-                game: '=',
-                bestScore: '='
+                game: '='
             },
             templateUrl: '/js/Directives/Templates/rainbow.html',
             link: function($scope){
