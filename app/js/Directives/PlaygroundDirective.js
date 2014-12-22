@@ -10,10 +10,8 @@ define([], function(){
                 game: '='
             },
             link: function($scope, el){
-                console.log('playground directive: ', $scope);
                 var startX, startY;
                 $('html').on('keydown', function(e){
-                    console.log('keypress');
                     if(e.which < 37 || e.which > 40 || !$scope.game.size) return;
                     switch(e.which){
                         case 37: $scope.game.move('left');
@@ -28,7 +26,6 @@ define([], function(){
                 });
                 swipe.bind(el, {
                     start: function(e){
-                        console.log('start swipe');
                         startX = e.x;
                         startY = e.y;
                     },

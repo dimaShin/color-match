@@ -12,7 +12,6 @@ define([], function(){
             },
             templateUrl: '/js/Directives/Templates/rainbow.html',
             link: function($scope){
-                console.log('rainbow: ',$scope);
             },
             controller: function($scope){
                 $scope.colors = rules.getColors();

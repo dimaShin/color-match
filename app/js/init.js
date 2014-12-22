@@ -7,8 +7,8 @@ requirejs.config({
         underscore: '_lib/underscore.min',
         jquery: '_lib/jquery',
         angular: '_lib/angular.min',
-        ngAnimate: '_lib/angular-animate',
-        ngTouch: '_lib/angular-touch',
+        ngAnimate: '_lib/angular-animate.min',
+        ngTouch: '_lib/angular-touch.min',
         swipe: '_lib/angular-swipe.min'
     },
     shim: {

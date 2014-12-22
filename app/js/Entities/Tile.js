@@ -3,11 +3,15 @@
  */
 define([], function(){
 
-    function TileService(rules){
-        function Tile(index){
+    function TileService(rules, utils){
+
+        function Tile(index, count){
+            console.log('count: ', count);
             this.index = index;
+            this.count = count;
             this.colorN = (Math.floor((Math.random() * 10)) % 2 === 0) ? 0 : 1;
             this.color = rules.getColors()[this.colorN];
+            this.moving = false;
         }
 
         Tile.prototype.growsUp = function(){
@@ -23,8 +27,8 @@ define([], function(){
         };
 
         return {
-            getTile: function (index) {
-                return new Tile(index)
+            getTile: function (index, count) {
+                return new Tile(index, count)
             }
         }
     }

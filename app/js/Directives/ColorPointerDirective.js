@@ -13,7 +13,6 @@ define([], function(){
             },
             link: function($scope, el){
                 var vwPerColor = 90 / (rules.getColors().length - 1);
-                console.log('maxColor: ', $scope.maxColorN);
                 $scope.$watch(
                     function maxColorWatcher($scope){
                         return $scope.maxColorN;

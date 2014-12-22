@@ -6,7 +6,6 @@ define([], function(){
     function SoundService(){
         return {
             play: function(){
-                console.log('play: ', arguments);
                 if(arguments.length)
                     new Sound().play(arguments[0], arguments);
             }

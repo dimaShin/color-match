@@ -33,6 +33,13 @@ define([], function(){
             },
             getColors: function(){
                 return colors;
+            },
+            getSide: function(){
+                switch(side){
+                    case 4: return 20.5;
+                    case 5: return 16;
+                    case 6: return 13;
+                }
             }
         }
     }

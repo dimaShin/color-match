@@ -29,7 +29,7 @@ body{
     width: 100%;
     text-align: center;
     display: inline-block;
-    line-height: 10vh;
+    line-height: 50px;
 }
 .playground{
     width: 93vw;
@@ -42,7 +42,7 @@ body{
     /*top: 100px;*/
     /*margin-left: -47%;*/
     padding: 1vw;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
 }
 .cell{
     /*float: left;*/
@@ -55,13 +55,22 @@ body{
 .tiles-container{
     position: relative;
 }
+.tile {
+    z-index: 50;
+}
+.absorbed {
+    z-index: 1;
+}
 .tile, .cell{
     position: absolute;
     box-sizing: border-box;
+    border-radius: 3px;
+}
+.tile{
+    transition: 70ms all;
 }
 .tile.ng-enter {
-    -webkit-transition: 0.5s all;
-    transition: 0.5s all;
+    transition: 0.3s opacity;
     opacity: 0;
 }
 .tile.ng-enter-active {
@@ -118,5 +127,78 @@ button {
     /*top: 10px;*/
     z-index: 99;
     margin-left: -5px;
+}
+.game-over-img{
+    width: 90vw;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-left: -45vw;
+    z-index: 90;
+
+}
+.game-over-img.ng-enter{
+    transition: 400ms all;
+    width: 1vw;
+    opacity: 0;
+    transform: rotate(180deg);
+}
+.game-over-img.ng-enter-active{
+    transition: 400ms all;
+    width: 90vw;
+    opacity: 1;
+    transform: none;
+}
+.game-options-img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.game-options {
+    padding-top: calc(50vh - 80px - 60px + 30px);
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 30px);
+    z-index: 95;
+    background-color: rgba(0,0,0,0.8);
+}
+.game-option {
+    width: 100%;
+    height: 20px;
+    display: inline-block;
+    line-height: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bolder;
+}
+.active {
+    color: #ffff00;
+}
+.album-page{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    display: inline-block;
+    line-height: 20px;
+    font-size: smaller;
+    color: #fff;
+    background-color: rgba(0,0,0,0.8);
+    text-align: center;
+
+}
+.album-page.ng-enter{
+    transition: 0.2s all;
+    margin-bottom: -20px;
+}
+.album-page.ng-enter-active{
+    transition: 0.2s all;
+    margin-bottom: 0;
 }
 

@@ -8,8 +8,6 @@ define(['app',
     'Directives/RainbowPartDirective',
     'Directives/PlaygroundDirective'],
     function(app, TileDirective, RainbowDirective, ColorPointerDirective, RainbowPartDirective, PlaygroundDirective){
-
-    console.log('directives: ', app);
     app.directive('tile', TileDirective)
         //.directive('rainbow', RainbowDirective)
         .directive('colorPointer', ColorPointerDirective)

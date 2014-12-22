@@ -3,18 +3,40 @@
  */
 define([''], function(){
 
-    function GameController($scope, rules, swipe, GameEntityService){
-
+    function GameController($scope, rules, swipe, GameEntityService, storage){
+        $scope.sound = 'ON';
         $scope.game = {};
-        $scope.recordScore = getRecordScore();
-        $scope.recordColor = getRecordColor();
+        $scope.recordScore = storage.getRecordScore() || 0;
+        $scope.recordColor = storage.getRecordColor() || 1;
         $scope.colors = rules.getColors();
-        console.log('recordColor: ', $scope.recordColor);
         var diffClasses = {
             4: 'hard',
             5: 'normal',
             6: 'easy'
         }
+        console.log('records: ', $scope.recordColor, $scope.recordScore);
+        $scope.$watch(
+            function boardSizeWatcher($scope){
+                return $scope.boardSize;
+            },
+            function(newValue){
+                console.log('boardSize: ',newValue);
+                if(newValue === 16){
+                    console.log('diff hard');
+                    $scope.easy = $scope.normal = false;
+                    $scope.hard = true;
+
+                }else if(newValue === 25){
+                    console.log('diff normal');
+                    $scope.easy = $scope.hard = false;
+                    $scope.normal = true;
+                }else if(newValue === 36){
+                    console.log('diff easy');
+                    $scope.normal = $scope.hard = false;
+                    $scope.easy = true;
+                }
+            }
+        )
         $scope.boardSize = Math.pow(rules.getSize(), 2);
         $scope.bestScore = 0;
         $scope.addTile = function(){
@@ -28,7 +50,25 @@ define([''], function(){
         $scope.chooseDiff = function(){
             rules.setSize(rules.getSize() + 1);
             $scope.boardSize = Math.pow(rules.getSize(), 2);
+        };
+
+        $scope.setDifficulty = function(diff){
+            switch(diff){
+                case 'hard':
+                    rules.setSize(4);
+                    $scope.boardSize = 16;
+                    break;
+                case 'normal':
+                    rules.setSize(5);
+                    $scope.boardSize = 25;
+                    break;
+                case 'easy':
+                    rules.setSize(6);
+                    $scope.boardSize = 36;
+                    break;
+            }
         }
+
         $scope.$watch(
             function boardSizeWatcher($scope){
                 return $scope.boardSize;
@@ -36,7 +76,7 @@ define([''], function(){
             function(){
                 $scope.difficulty = diffClasses[rules.getSize()];
             }
-        )
+        );
         $scope.getCellClasses = function(index){
             var y = index % rules.getSize(),
                 x = (index - y) / rules.getSize();
@@ -44,13 +84,17 @@ define([''], function(){
                 x: 'x' + x,
                 y: 'y' + y
             };
-        }
+        };
+
         $scope.$watch(
             function scoreWatcher($scope){
                 return $scope.game.score;
             },
             function(newValue){
-                if(newValue > $scope.recordScore) $scope.recordScore = newValue;
+                if(newValue > $scope.recordScore) {
+                    $scope.recordScore = newValue;
+                    storage.setRecordScore(newValue);
+                }
             }
         );
 
@@ -62,25 +106,39 @@ define([''], function(){
                 if(!newValue) newValue = 1;
                 if(newValue > $scope.recordColor){
                     $scope.recordColor = newValue;
-                    if(window.localStorage){
-                        window.localStorage.recordColor = newValue;
-                    }
+                    storage.setRecordColor(newValue);
                 }
             }
         )
 
-
-    }
-    function getRecordScore(){
-        return 123;
-    }
-
-    function getRecordColor(){
-        if(window.localStorage && window.localStorage.recordColor){
-            return window.localStorage.recordColor;
-        }else{
-            return 1;
+        $scope.endGame = function(){
+            $scope.game = {};
         }
+
+        $scope.toggleOptions = function(){
+            $scope.optionsVisibility = !$scope.optionsVisibility;
+        }
+
+        $scope.toggleSound = function(){
+            $scope.sound = ($scope.sound === 'ON') ? 'OFF' : 'ON';
+        }
+        $(window).on("resize",function(event){
+            $scope.albumPage = window.innerHeight < window.innerWidth;
+            $scope.$apply();
+        });
+        $scope.$watchCollection(
+            function pageWidthWatcher(){
+                return {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                }
+            },
+            function(newValue){
+                $scope.albumPage = newValue.width > newValue.height;
+            }
+        )
+
     }
+
     return GameController;
 })

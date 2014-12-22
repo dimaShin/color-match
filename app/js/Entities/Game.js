@@ -2,16 +2,51 @@
  * Created by iashind on 16.12.14.
  */
 define([], function(){
+    function GameService(swipe, TileEntityService, SoundsService, utils, $timeout){
+        var generatedTiles = 0;
 
-    function GameService(swipe, TileEntityService, SoundsService){
         Game.prototype.generateTile = function(needApply){
             this.movedTiles = false;
             this.mergedTiles = false;
             var tilePos = this.getTilePos();
             if(tilePos === false) return this.endGame();
-            console.log('got tile: ', tilePos);
-            this.placeTile(TileEntityService.getTile(tilePos));
+            this.placeTile(TileEntityService.getTile(tilePos, ++generatedTiles));
             if(needApply) this.scope.$apply();
+            if(!this.hasPossibleMoves()){
+                return this.endGame();
+            }
+        }
+
+        Game.prototype.hasPossibleMoves = function(){
+            var tile, i, length, x, y, newIndex;
+            console.log(this);
+            if(this.busyCellsCount < this.cellCount) return true;
+            for(i = 0, length = this.tilesCollection.length; i < length; i++){
+                tile = this.tilesCollection[i];
+                x = utils.getPos(tile.index).x;
+                y = utils.getPos(tile.index).y;
+                console.log('checking: ', tile.index,x,y);
+                if(x > 0){
+                    newIndex = utils.getIndex(x-1, y);
+                    console.log('x > 0', newIndex);
+                    if(!this.getTile(newIndex) || this.getTile(newIndex).colorN === tile.colorN) return true;
+                }
+                if(x < this.size - 2){
+                    newIndex = utils.getIndex(x+1, y);
+                    console.log('x < size', newIndex);
+                    if(!this.getTile(newIndex) || this.getTile(newIndex).colorN === tile.colorN) return true;
+                }
+                if(y > 0){
+                    newIndex = utils.getIndex(x, y-1);
+                    console.log('y > 0', newIndex);
+                    if(!this.getTile(newIndex) || this.getTile(newIndex).colorN === tile.colorN) return true;
+                }
+                if(y < this.size - 2){
+                    newIndex = utils.getIndex(x, y+1);
+                    console.log('y < size', newIndex);
+                    if(!this.getTile(newIndex) || this.getTile(newIndex).colorN === tile.colorN) return true;
+                }
+            }
         }
 
         Game.prototype.placeTile = function(tile){
@@ -24,12 +59,14 @@ define([], function(){
             do{
                 var pos = Math.floor(Math.random() * 100);
             }while(pos >= this.cellCount || this.getTile(pos));
-            console.log('got new index: ', pos);
             return pos;
         };
 
         Game.prototype.endGame = function(){
-            console.log('game over');
+            if(this.scope.sound === 'ON') SoundsService.play('game-over.ogg');
+            this.gameOver = true;
+            console.log('game over', this);
+            this.scope.$apply();
         }
 
 
@@ -74,7 +111,7 @@ define([], function(){
         //}
 
         Game.prototype.move = function(direction){
-            var grid = [], length, i, j;
+            var grid = [], length, i, j, game = this;
             for(i = 0, length = Math.sqrt(this.cellCount); i < length; i++){
                 grid.push([]);
                 switch(direction){
@@ -105,27 +142,36 @@ define([], function(){
                 this.tilesCollection[i].alreadyGrows = false;
             }
             if(this.movedTiles || this.mergedTiles){
-                if(this.mergedTiles){
-                    SoundsService.play('move.ogg');
-                }else{
-                    SoundsService.play('merge.ogg')
+                if(this.scope.sound === 'ON'){
+                    if(this.mergedTiles){
+                        SoundsService.play('move.ogg');
+                    }else{
+                        SoundsService.play('merge.ogg')
+                    }
                 }
+
                 this.render();
-                this.generateTile(1);
-            }else{
+                $timeout(function(){
+                    game.generateTile(1);
+                }, 20);
+
+            }else if(this.scope.sound === 'ON'){
                 SoundsService.play('dry-shot.ogg');
             }
 
         }
 
         Game.prototype.analyzeLine = function(line){
+            //this.endGame();
             var tile, nextTile, i, j, isMoved, indexBefore;
             for(i = 0; i < line.length; i++){
                 if(tile = this.getTile(line[i])){
-                    var indexBefore = tile.index;
+                    tile.moving = false;
+                    indexBefore = tile.index;
                     for(j = i - 1; j >= 0; j--){
                         if(nextTile = this.getTile(line[j])){
-                            if(nextTile.colorN === tile.colorN && !nextTile.alreadyGrows){
+                            if(nextTile.colorN === tile.colorN && !nextTile.alreadyGrows && !nextTile.absorbed){
+                                console.log('merge tiles: ', nextTile, tile);
                                 this.mergeTiles(nextTile, tile);
                                 isMoved = true;
                                 break;
@@ -136,26 +182,32 @@ define([], function(){
                             }
                         }
                     }
-                    if(!isMoved) tile.index = line[0];
-                    if(indexBefore !== tile.index) this.movedTiles = true;
+                    if(!isMoved){
+                        tile.index = line[0];
+                    }
+                    if(indexBefore !== tile.index) {
+                        this.movedTiles = true;
+                        tile.moving = true;
+                    }
                 }
             }
         }
 
-        Game.prototype.mergeTiles = function(baseTile, absorbedTile){
+        Game.prototype.mergeTiles = function(absorbedTile, baseTile){
             this.mergedTiles = true;
             baseTile.growsUp();
             if(baseTile.colorN > this.maxColorN) {
                 this.maxColorN = baseTile.colorN;
             }
             this.score += baseTile.colorN * (10 - this.size);
-            absorbedTile.index = baseTile.index;
+            baseTile.index = absorbedTile.index;
             absorbedTile.absorbed = true;
         }
 
         Game.prototype.removeAbsorbed = function(){
             for(var i = this.tilesCollection.length - 1; i >= 0; i--){
                 if(this.tilesCollection[i].absorbed){
+                    this.tilesCollection[i].moving = false;
                     this.tilesCollection.splice(i, 1);
                     delete this.busyCells[i];
                     this.busyCellsCount--;
@@ -172,9 +224,9 @@ define([], function(){
         }
 
         Game.prototype.render = function(){
+            var game = this;
             this.scope.$apply();
-            this.removeAbsorbed();
-            console.log(this);
+            game.removeAbsorbed();
         };
 
         function Game(scope){
