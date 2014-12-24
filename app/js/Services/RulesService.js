@@ -3,8 +3,8 @@
  */
 define([], function(){
 
-    function rulesService(){
-        var side = 5;
+    function rulesService(storage){
+        var side = storage.getDefaultDifficulty() || 5;
         var colors = [
             '#e9e162',
             '#EAA700',
@@ -30,6 +30,7 @@ define([], function(){
             setSize: function(newValue){
                 if(newValue > 6) newValue = 4;
                 side = newValue;
+                storage.setDefaultDifficulty(newValue);
             },
             getColors: function(){
                 return colors;

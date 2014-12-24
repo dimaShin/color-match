@@ -16,7 +16,7 @@ define([], function(){
                 return {
                     pre: function preLink($scope, el){
                         el.css({
-                            width: 90 / (colors.length - 1) + 'vw',
+                            width: 100 / (colors.length - 1) + '%',
                             backgroundImage: 'linear-gradient(to right,'+ colors[$scope.colorN] +','+ colors[$scope.colorN + 1] +')'
                         })
                     }

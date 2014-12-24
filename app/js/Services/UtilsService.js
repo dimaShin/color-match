@@ -14,13 +14,27 @@ define([], function(){
             };
         }
 
+        function getCssFromIndex(index){
+            var pos = getPos(index);
+            return {
+                left: getCSS(pos.y),
+                top: getCSS(pos.x)
+            }
+        }
+
+        function getCSS(x){
+            var side = rules.getSide();
+            console.log('position: ', x, (x*side) + (x + 1) + '%');
+            return (x*side) + (x + 1) + '%';
+        }
         function getIndex(x, y){
             return x*rules.getSize()+y;
         }
 
         return {
             getPos: getPos,
-            getIndex: getIndex
+            getIndex: getIndex,
+            getCssFromIndex: getCssFromIndex
         }
     }
 

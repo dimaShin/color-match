@@ -30,6 +30,16 @@ define([], function(){
                 if(localStorage()){
                     window.localStorage['recordScore'] = score;
                 }
+            },
+            getDefaultDifficulty: function(){
+                if(localStorage()){
+                    return window.localStorage['difficulty'];
+                }
+            },
+            setDefaultDifficulty: function(diff){
+                if(localStorage()){
+                    window.localStorage['difficulty'] = diff;
+                }
             }
         }
     }

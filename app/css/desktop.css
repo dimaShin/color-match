@@ -1,0 +1,32 @@
+.game-container{
+    width: 840px;
+    height: 840px;
+    margin: 10px auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+}
+.playground{
+    width: 600px;
+    height: 600px;
+    /*padding: 20px;*/
+}
+.album-page{
+    display: none !important;
+    visibility: hidden !important;
+}
+.game-header{
+    width: 80%;
+}
+.game-option{
+    color: #ccc;
+}
+.game-option:hover{
+    color: #fff;
+}
+.game-options-img {
+    width: 40px;
+    height: 40px;
+
+    right: 10px;
+    top: 10px;
+}

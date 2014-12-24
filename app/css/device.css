@@ -1,0 +1,24 @@
+.game-container{
+    width: 100vw;
+    height: 100vh;
+    padding-top: 10px;
+}
+
+.playground{
+    width: 93vw;
+    height: 93vw;
+    /*padding: 1vw;*/
+}
+.page-head h1{
+    font-size: large;
+}
+.game-header{
+    width: 95%;
+}
+.game-options-img {
+    width: 20px;
+    height: 20px;
+
+    right: 5px;
+    top: 5px;
+}

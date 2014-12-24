@@ -41,6 +41,9 @@ define([], function(){
                         }
                     }
                 })
+                el.on('mousedown, touchstart', function(e){
+                    e.preventDefault();
+                })
             }
         }
     }

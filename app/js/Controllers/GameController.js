@@ -4,6 +4,11 @@
 define([''], function(){
 
     function GameController($scope, rules, swipe, GameEntityService, storage){
+
+        window.addTile = function(){
+            $scope.game.generateTile(1);
+        }
+
         $scope.sound = 'ON';
         $scope.game = {};
         $scope.recordScore = storage.getRecordScore() || 0;
@@ -14,24 +19,19 @@ define([''], function(){
             5: 'normal',
             6: 'easy'
         }
-        console.log('records: ', $scope.recordColor, $scope.recordScore);
         $scope.$watch(
             function boardSizeWatcher($scope){
                 return $scope.boardSize;
             },
             function(newValue){
-                console.log('boardSize: ',newValue);
                 if(newValue === 16){
-                    console.log('diff hard');
                     $scope.easy = $scope.normal = false;
                     $scope.hard = true;
 
                 }else if(newValue === 25){
-                    console.log('diff normal');
                     $scope.easy = $scope.hard = false;
                     $scope.normal = true;
                 }else if(newValue === 36){
-                    console.log('diff easy');
                     $scope.normal = $scope.hard = false;
                     $scope.easy = true;
                 }

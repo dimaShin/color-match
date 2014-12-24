@@ -12,7 +12,7 @@ define([], function(){
                 top: '='
             },
             link: function($scope, el){
-                var vwPerColor = 90 / (rules.getColors().length - 1);
+                var vwPerColor = 100 / (rules.getColors().length - 1);
                 $scope.$watch(
                     function maxColorWatcher($scope){
                         return $scope.maxColorN;
@@ -20,7 +20,7 @@ define([], function(){
                     function(newValue){
                         if(!newValue) newValue = 0;
                         el.css({
-                            left: newValue * vwPerColor + 'vw',
+                            left: newValue * vwPerColor + '%',
                             top: $scope.top
                         })
                     }
