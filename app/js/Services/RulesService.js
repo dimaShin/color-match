@@ -6,22 +6,24 @@ define([], function(){
     function rulesService(storage){
         var side = storage.getDefaultDifficulty() || 5;
         var colors = [
-            '#e9e162',
-            '#EAA700',
-            '#D85E2B',
-            '#AB629A',
-            '#E46077',
-            '#FA97C6',
-            '#E67D12',
-            '#C13621',
-            '#003F69',
-            '#047ED1',
-            '#02494F',
-            '#34AC55',
-            '#87E1DF',
-            '#3C1690',
-            '#f00',
-            '#ff0'
+            '#de1515',
+            '#de5c15',
+            '#de9515',
+            '#ded215',
+            '#acde15',
+            '#4ede15',
+            '#15dec9',
+            '#157dde',
+            '#1e15de',
+            '#b115de',
+            '#de1590',
+            '#d4908d',
+            '#a9d48d',
+            '#8dd4d3',
+            '#938dd4',
+            '#d48dbf',
+            //'#004444',
+            //'#066500'
         ];
         return {
             getSize: function(){

@@ -6,12 +6,14 @@ define(['app',
     'Directives/RainbowDirective',
     'Directives/ColorPointerDirective',
     'Directives/RainbowPartDirective',
-    'Directives/PlaygroundDirective'],
-    function(app, TileDirective, RainbowDirective, ColorPointerDirective, RainbowPartDirective, PlaygroundDirective){
+    'Directives/PlaygroundDirective',
+    'Directives/ColoredDirective'],
+    function(app, TileDirective, RainbowDirective, ColorPointerDirective, RainbowPartDirective, PlaygroundDirective, ColoredDirective){
     app.directive('tile', TileDirective)
         //.directive('rainbow', RainbowDirective)
         .directive('colorPointer', ColorPointerDirective)
         .directive('rainbowPart', RainbowPartDirective)
-        .directive('playground', PlaygroundDirective);
+        .directive('playground', PlaygroundDirective)
+        .directive('colored', ColoredDirective);
 
 });

@@ -32,13 +32,18 @@
 
 <div ng-controller="gameController" ng-cloak class="game-container wait-for-loading">
     <div class="while-loading text-center"><img src="img/loading.gif"/></div>
-    <div class="container-fluid page-head text-center"><h1>The ColorMatch Game!</h1></div>
+    <div class="container-fluid page-head text-center">
+        <h1 colored>
+            The ColorMatch Game!
+        </h1>
+    </div>
     <img class="game-options-img" src="img/game-options.png" ng-click="toggleOptions()" />
     <div class="game-options" ng-if="optionsVisibility">
         <div ng-if="!game.size">
             <div class="game-option" ng-class="{active: hard}" ng-click="setDifficulty('hard')">HARD</div>
             <div class="game-option" ng-class="{active: normal}" ng-click="setDifficulty('normal')">NORMAL</div>
             <div class="game-option" ng-class="{active: easy}" ng-click="setDifficulty('easy')">EASY</div>
+            <div class="game-option" ng-click="setTilesType()">TILES TYPE {{tilesType}}</div>
         </div>
 
         <div class="game-option" ng-click="toggleSound()">SOUND {{sound}}</div>
@@ -70,7 +75,7 @@
             </div>
         </div>
         <div ng-class="'tiles-container ' + difficulty">
-            <div class="tile animate" ng-repeat="tile in game.tilesCollection track by tile.count" tile="tile" ng-class="difficulty">
+            <div class="tile animate" ng-repeat="tile in game.tilesCollection track by tile.count" tile="tile" tiles-type="tilesType" ng-class="difficulty">
                 <!--{{tile.count}}-->
                 <div class="next-tile" ng-style="{'background-color':tile.nextColor}" ng-if="tile.nextColor"></div>
             </div>

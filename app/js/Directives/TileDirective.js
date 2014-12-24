@@ -12,43 +12,52 @@ define([], function(){
             transclude: true,
             template: '<ng-transclude></ng-transclude>',
             scope: {
-                tile: '='
+                tile: '=',
+                tilesType: '='
             },
             compile: function(){
 
-                function getPosition(x){
-                    var side = rules.getSide();
-                    console.log('position: ', x, (x*side) + (x + 1) + '%');
-                    return (x*side) + (x + 1) + '%';
+                function setFontSize(height, colorN){
+                    console.log(colorN);
+                    if(colorN < 3) return height * .9 + 'px';
+                    if(colorN < 6) return height * .7 + 'px';
+                    if(colorN < 9) return height * .4 + 'px';
+                    if(colorN < 12) return height * .2 + 'px';
                 }
-
 
                 return {
                     pre: function preLink($scope, el, attr, ctrl){
-                        //console.log($scope);
-                        //var index;
+                        console.log('tilesType: ', $scope);
                         if(!$scope.tile) return;
-                        //if(typeof $scope.tile === 'object'){
-                        //    index = $scope.tile.index;
-
-                        //}else{
-                        //    index = $scope.tile;
-                        //}
                         var index = (typeof $scope.tile === 'number') ? $scope.tile : $scope.tile.index,
                             x = utils.getPos(index).x,
                             y = utils.getPos(index).y;
-                            //left = getPosition(y),
-                            //top = getPosition(x)
-
-                        //el.css(utils.getCssFromIndex(index));
                         el.addClass('x' + x).addClass('y' + y);
-                        el.css({
-                            backgroundColor: $scope.tile.color
-                        });
-                        $scope.tile.nextColor = $scope.tile.getNextColor();
+                        if($scope.tilesType === 'COLORS'){
+                            el.css({
+                                backgroundColor: rules.getColors()[$scope.tile.colorN]
+                            });
+                            $scope.tile.nextColor = $scope.tile.getNextColor();
+                        }else{
+                            console.log('fontSize: ', setFontSize(el.height(), $scope.tile.colorN));
+                            el.html(Math.pow(2, $scope.tile.colorN + 1)).css('backgroundColor', '#ccc').css('fontSize', setFontSize(el.height(), $scope.tile.colorN));
+                        }
+
 
                     },
-                    post: function postLink($scope, el, attr, ctrl){
+                    post: function postLink($scope, el){
+                        $scope.$watchCollection(
+                            function fontSizeWatcher($scope){
+                                return {
+                                    height: el.height(),
+                                    colorN: $scope.tile.colorN
+                                }
+                            },
+                            function(newValue){
+                                console.log('fontSize: ', setFontSize(el.height(), $scope.tile.colorN))
+                                el.css('fontSize', setFontSize(newValue.height, newValue.colorN));
+                            }
+                        )
                         $scope.$watch(
                             function indexWatcher($scope){
                                 if($scope.tile){
@@ -62,18 +71,6 @@ define([], function(){
                                     oldY = utils.getPos(oldValue).y,
                                     newX = utils.getPos(newValue).x,
                                     newY = utils.getPos(newValue).y;
-                                    //side = rules.getSide(),
-                                    //left = (newY * side) + (2*newY - 1),
-                                    //top = (newX * side) + (2*newX - 1);
-                                console.log('newY: ', newY);
-                                console.log('newX: ', newX);
-                                //console.log('side: ', side);
-                                //console.log('left: ', left);
-                                //console.log('top: ', top);
-                                //el.animate({
-                                //    left: getPosition(newY),
-                                //    top: getPosition(newX)
-                                //});
                                 el.removeClass('x' + oldX).removeClass('y' + oldY)
                                     .addClass('x' + newX).addClass('y' + newY).addClass('moving');
                             }
@@ -81,15 +78,20 @@ define([], function(){
                         $scope.$watch(
                             function colorWatcher($scope){
                                 if($scope.tile){
-                                    return $scope.tile.color;
+                                    return $scope.tile.colorN;
                                 }
                             },
                             function(newValue, oldValue){
                                 if(newValue === undefined || newValue === oldValue) return;
-                                el.css({
-                                    backgroundColor: newValue
-                                })
-                                $scope.tile.nextColor = $scope.tile.getNextColor();
+                                if($scope.tilesType === 'COLORS'){
+                                    el.css({
+                                        backgroundColor: rules.getColors()[newValue]
+                                    })
+                                    $scope.tile.nextColor = $scope.tile.getNextColor();
+                                }else{
+                                    el.html(Math.pow(2, $scope.tile.colorN + 1));
+                                }
+
                             }
                         )
                         $scope.$watch(

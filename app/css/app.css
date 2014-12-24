@@ -105,6 +105,12 @@ body{
 }
 .tile{
     transition: 70ms all;
+    display: flex;
+    justify-content:center;
+    align-content:center;
+    flex-direction:column;
+    text-align: center;
+    color: #245269;
 }
 .tile.ng-enter {
     transition: 0.1s opacity;
@@ -138,10 +144,6 @@ body{
     width: 100%;
 }
 .button {
-    /*color: darkslateblue !important;*/
-    /*border: 1px solid #888;*/
-    /*background-color: #fff!important;*/
-
     color: rgb(24, 52, 69);
     font-size: 13px;
     padding: 9px;

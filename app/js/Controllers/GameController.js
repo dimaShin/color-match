@@ -4,12 +4,8 @@
 define([''], function(){
 
     function GameController($scope, rules, swipe, GameEntityService, storage){
-
-        window.addTile = function(){
-            $scope.game.generateTile(1);
-        }
-
         $scope.sound = 'ON';
+        $scope.tilesType = 'COLORS';
         $scope.game = {};
         $scope.recordScore = storage.getRecordScore() || 0;
         $scope.recordColor = storage.getRecordColor() || 1;
@@ -137,6 +133,9 @@ define([''], function(){
                 $scope.albumPage = newValue.width > newValue.height;
             }
         )
+        $scope.setTilesType = function(){
+            $scope.tilesType = ($scope.tilesType === 'COLORS') ? 'NUMBERS' : 'COLORS';
+        }
 
     }
 
