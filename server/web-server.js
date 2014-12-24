@@ -16,7 +16,7 @@ function handler (req, res) {
         html: 'text/html',
         ogg: 'audio/ogg'
     };
-    if(url.match(/favicon/)) return;
+    //if(url.match(/favicon/)) return;
     if(!url.match(/\.\w{1,4}$/i)){
         url = 'index.html';
     }else{
