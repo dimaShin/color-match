@@ -9,7 +9,8 @@ requirejs.config({
         angular: '_lib/angular.min',
         ngAnimate: '_lib/angular-animate.min',
         ngTouch: '_lib/angular-touch.min',
-        swipe: '_lib/angular-swipe.min'
+        swipe: '_lib/angular-swipe.min',
+        socketIO: 'https://cdn.socket.io/socket.io-1.2.1'
     },
     shim: {
         bootstrap: {

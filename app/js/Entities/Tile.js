@@ -3,10 +3,9 @@
  */
 define([], function(){
 
-    function TileService(rules, utils){
+    function TileService(rules){
 
         function Tile(index, count){
-            console.log('count: ', count);
             this.index = index;
             this.count = count;
             this.colorN = (Math.floor((Math.random() * 10)) % 2 === 0) ? 0 : 1;

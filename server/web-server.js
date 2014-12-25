@@ -1,6 +1,6 @@
 ﻿console.log('starting http server');
 var app = require('http').createServer(handler);
-//var io = require('socket.io')(app);
+var io = require('socket.io')(app);
 var fs = require('fs');
 
 app.listen(80);
@@ -45,3 +45,9 @@ function handler (req, res) {
             res.end(data);
         });
 }
+io.on('connection', function(socket){
+    console.log('new socket');
+    socket.on('animation', function(timestamp){
+        console.log('animation starts at ', timestamp);
+    })
+})

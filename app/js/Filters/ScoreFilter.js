@@ -7,7 +7,6 @@ define([], function(){
 
         return function(input){
             var output = input, modulo;
-            console.log('score filter: ', output.length);
 
             if(output.length > 4 && output.length < 7) {
                 modulo = output % 1000;
@@ -19,10 +18,8 @@ define([], function(){
                         modulo = 0;
                         break;
                     }
-                    console.log(modulo);
                 }
                 if(modulo) modulo = '.' + modulo;
-                console.log(modulo, output);
                 output = output + modulo + 'K';
             }
             if(output.length >= 7){
@@ -35,10 +32,8 @@ define([], function(){
                         modulo = 0;
                         break;
                     }
-                    console.log(modulo);
                 }
                 if(modulo) modulo = '.' + modulo;
-                console.log(modulo, output);
                 output = output + modulo + 'M';
             }
             return output;

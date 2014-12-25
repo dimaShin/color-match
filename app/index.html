@@ -28,8 +28,6 @@
 </head>
 <body>
 
-
-
 <div ng-controller="gameController" ng-cloak class="game-container wait-for-loading">
     <div class="while-loading text-center"><img src="img/loading.gif"/></div>
     <div class="container-fluid page-head text-center">
@@ -43,7 +41,7 @@
             <div class="game-option" ng-class="{active: hard}" ng-click="setDifficulty('hard')">HARD</div>
             <div class="game-option" ng-class="{active: normal}" ng-click="setDifficulty('normal')">NORMAL</div>
             <div class="game-option" ng-class="{active: easy}" ng-click="setDifficulty('easy')">EASY</div>
-            <div class="game-option" ng-click="setTilesType()">TILES TYPE {{tilesType}}</div>
+            <div class="game-option" ng-click="toggleNumbers()">NUMBERS {{numbers}}</div>
         </div>
 
         <div class="game-option" ng-click="toggleSound()">SOUND {{sound}}</div>
@@ -70,18 +68,20 @@
     <div class="playground shadow" game="game">
         <img src="img/game-over.png" class="game-over-img" ng-if="game.gameOver">
         <div ng-class="'tiles-container ' + difficulty">
-            <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index).x +' '+ getCellClasses($index).y">
+            <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index)">
                 <!--{{$index}}-->
             </div>
         </div>
         <div ng-class="'tiles-container ' + difficulty">
-            <div class="tile animate" ng-repeat="tile in game.tilesCollection track by tile.count" tile="tile" tiles-type="tilesType" ng-class="difficulty">
+            <div class="tile animate" ng-repeat="tile in game.tilesCollection track by tile.count" tile="tile" numbers="numbers" ng-class="difficulty">
                 <!--{{tile.count}}-->
                 <div class="next-tile" ng-style="{'background-color':tile.nextColor}" ng-if="tile.nextColor"></div>
             </div>
         </div>
     </div>
-
+    <!--<div class="console" ng-if="consoleVisibility" ng-click="consoleVisibility=false" >-->
+        <!--<div class="debug-line" ng-repeat="line in debugging track by $index">{{line}}</div>-->
+    <!--</div>-->
     <div class="game-footer container-fluid rainbow">
         <img src="img/pointer-down.png" class="color-pointer" max-color-n="recordColor" top="0"/>
         <div class="rainbow-part"
@@ -91,7 +91,7 @@
         <img src="img/pointer.png" class="color-pointer" max-color-n="game.maxColorN" top="20"/>
     </div>
     <div class="album-page" ng-if="albumPage">For better performance rotate device.</div>
-    <button type="button" ng-click="addTile()" style="margin-top: 400px">Добавить плитку</button>
+    <!--<button type="button" ng-click="addTile()" style="margin-top: 400px">Добавить плитку</button>-->
 </div>
 <script type="text/javascript" src="js/_lib/require.js" data-main="js/init"></script>
 </body>

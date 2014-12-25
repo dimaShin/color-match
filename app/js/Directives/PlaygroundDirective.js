@@ -33,12 +33,13 @@ define([], function(){
                         if(!$scope.game.size) return;
                         var difX = startX - e.x,
                             difY = startY - e.y;
-
+                        console.log('end touch', new Date().getTime());
                         if(Math.abs(difX) > Math.abs(difY)){
                             difX > 0 ? $scope.game.move('left') : $scope.game.move('right');
                         }else{
                             difY > 0 ? $scope.game.move('up') : $scope.game.move('down');
                         }
+
                     }
                 })
                 el.on('mousedown, touchstart', function(e){

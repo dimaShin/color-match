@@ -24,7 +24,6 @@ define([], function(){
 
         function getCSS(x){
             var side = rules.getSide();
-            console.log('position: ', x, (x*side) + (x + 1) + '%');
             return (x*side) + (x + 1) + '%';
         }
         function getIndex(x, y){

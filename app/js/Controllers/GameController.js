@@ -5,7 +5,7 @@ define([''], function(){
 
     function GameController($scope, rules, swipe, GameEntityService, storage){
         $scope.sound = 'ON';
-        $scope.tilesType = 'COLORS';
+        $scope.numbers = 'ON';
         $scope.game = {};
         $scope.recordScore = storage.getRecordScore() || 0;
         $scope.recordColor = storage.getRecordColor() || 1;
@@ -76,10 +76,11 @@ define([''], function(){
         $scope.getCellClasses = function(index){
             var y = index % rules.getSize(),
                 x = (index - y) / rules.getSize();
-            return {
-                x: 'x' + x,
-                y: 'y' + y
-            };
+            return 'x' + x + ' y' + y;
+            //{
+            //    x: 'x' + x,
+            //    y: 'y' + y
+            //};
         };
 
         $scope.$watch(
@@ -133,8 +134,8 @@ define([''], function(){
                 $scope.albumPage = newValue.width > newValue.height;
             }
         )
-        $scope.setTilesType = function(){
-            $scope.tilesType = ($scope.tilesType === 'COLORS') ? 'NUMBERS' : 'COLORS';
+        $scope.toggleNumbers = function(){
+            $scope.numbers = ($scope.numbers === 'ON') ? 'OFF' : 'ON';
         }
 
     }
