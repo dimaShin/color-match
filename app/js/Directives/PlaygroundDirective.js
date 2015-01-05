@@ -10,7 +10,7 @@ define([], function(){
                 game: '='
             },
             link: function playgroundLink($scope, el){
-                var startX, startY, touchHandler;
+                var startX, startY, moving;
                 $('html').on('keydown', function onKeyDown(e){
                     if(e.which < 37 || e.which > 40 || !$scope.game.size) return;
                     switch(e.which){
@@ -30,30 +30,24 @@ define([], function(){
                         startX = e.x;
                         startY = e.y;
                         //console.log('start');
-                        touchHandler = function touchHandler(e){
-                            //console.log('touchHandler');
+                        moving = false;
+                    },
+                    move: function swipeMove(e){
+                        if(!moving){
                             var difX = startX - e.x,
                                 difY = startY - e.y,
                                 absX = Math.abs(difX),
                                 absY = Math.abs(difY);
                             if(absX > 50 || absY > 50){
-                                //console.log($scope.game.moving);
+                                moving = true;
                                 if(!$scope.game.size || $scope.game.moving) return;
-                                //var difX = startX - e.x,
-                                //    difY = startY - e.y;
-                                //console.log('end touch', new Date().getTime());
-
                                 if(absX > absY){
                                     difX > 0 ? $scope.game.move('left') : $scope.game.move('right');
                                 }else{
                                     difY > 0 ? $scope.game.move('up') : $scope.game.move('down');
                                 }
-                                touchHandler = null;
                             }
                         }
-                    },
-                    move: function swipeMove(e){
-                        if(touchHandler)touchHandler(e);
                     }
                 })
                 el.on('mousedown, touchstart', function preventDefault(e){
