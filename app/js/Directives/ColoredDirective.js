@@ -10,21 +10,22 @@ define([], function() {
             scope: {
 
             },
-            compile: function(){
+            compile:  function coloredDirectiveCompile(){
 
                 return{
-                    pre: function($scope, el){
+                    pre: function prelinkColored($scope, el){
                         var colors = rules.getColors(),
-                            text = el.html().trim(),//replace(/\s/g, ''),
-                            newHTML = $('<div></div>'), span, color;
+                            div = document.createElement('div'),
+                            span = document.createElement('span'),
+                            text = el.html().trim(), color;
                         for(var i in text){
                             color = colors[i] ? colors[i] : colors[i % colors.length];
-                            span = $('<span></span>')
+                            $(span.cloneNode())
                                 .css('color', color)
                                 .html(text[i])
-                                .appendTo(newHTML);
+                                .appendTo(div);
                         }
-                        el.html(newHTML);
+                        el.html(div);
                     }
                 }
             }

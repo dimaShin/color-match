@@ -35,20 +35,23 @@ define([''], function(){
         )
         $scope.boardSize = Math.pow(rules.getSize(), 2);
         $scope.bestScore = 0;
-        $scope.addTile = function(){
+        $scope.addTile = function addTile(){
             $scope.game.generateTile();
         };
-        $scope.startGame = function(){
+        $scope.startGame = function startGame(){
             $scope.boardSize = Math.pow(rules.getSize(), 2);
             $scope.game = GameEntityService.getGame($scope, swipe);
+            //$scope.onRender(function onRender(){
+            //
+            //})
             $scope.game.start();
         };
-        $scope.chooseDiff = function(){
+        $scope.chooseDiff = function chooseDiff(){
             rules.setSize(rules.getSize() + 1);
             $scope.boardSize = Math.pow(rules.getSize(), 2);
         };
 
-        $scope.setDifficulty = function(diff){
+        $scope.setDifficulty = function setDifficulty(diff){
             switch(diff){
                 case 'hard':
                     rules.setSize(4);
@@ -69,11 +72,11 @@ define([''], function(){
             function boardSizeWatcher($scope){
                 return $scope.boardSize;
             },
-            function(){
+            function boardSizeHandler(){
                 $scope.difficulty = diffClasses[rules.getSize()];
             }
         );
-        $scope.getCellClasses = function(index){
+        $scope.getCellClasses = function getCellClasses(index){
             var y = index % rules.getSize(),
                 x = (index - y) / rules.getSize();
             return 'x' + x + ' y' + y;
@@ -87,7 +90,7 @@ define([''], function(){
             function scoreWatcher($scope){
                 return $scope.game.score;
             },
-            function(newValue){
+            function scoreHandler(newValue){
                 if(newValue > $scope.recordScore) {
                     $scope.recordScore = newValue;
                     storage.setRecordScore(newValue);
@@ -99,7 +102,7 @@ define([''], function(){
             function maxColorWatcher($scope){
                 return $scope.game.maxColorN;
             },
-            function(newValue){
+            function maxColorHandler(newValue){
                 if(!newValue) newValue = 1;
                 if(newValue > $scope.recordColor){
                     $scope.recordColor = newValue;
@@ -108,18 +111,18 @@ define([''], function(){
             }
         )
 
-        $scope.endGame = function(){
+        $scope.endGame = function endGame(){
             $scope.game = {};
         }
 
-        $scope.toggleOptions = function(){
+        $scope.toggleOptions = function toggleOptions(){
             $scope.optionsVisibility = !$scope.optionsVisibility;
         }
 
-        $scope.toggleSound = function(){
+        $scope.toggleSound = function toggleSound(){
             $scope.sound = ($scope.sound === 'ON') ? 'OFF' : 'ON';
         }
-        $(window).on("resize",function(event){
+        $(window).on("resize",function onResize(event){
             $scope.albumPage = window.innerHeight < window.innerWidth;
             $scope.$apply();
         });
@@ -130,11 +133,11 @@ define([''], function(){
                     height: window.innerHeight
                 }
             },
-            function(newValue){
+            function pageWidthHandler(newValue){
                 $scope.albumPage = newValue.width > newValue.height;
             }
         )
-        $scope.toggleNumbers = function(){
+        $scope.toggleNumbers = function toggleNumbers(){
             $scope.numbers = ($scope.numbers === 'ON') ? 'OFF' : 'ON';
         }
 

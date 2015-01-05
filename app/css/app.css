@@ -111,10 +111,10 @@ body{
     flex-direction:column;
     text-align: center;
     color: #245269;
+    transform: translateZ(0);
 }
 .tile.ng-enter {
     transition: 0.1s opacity;
-    transform: translateZ(0);
     opacity: 0;
 }
 .tile.ng-enter-active {

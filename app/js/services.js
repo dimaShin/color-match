@@ -7,6 +7,7 @@ define(['app', 'Services/RulesService',
     'Services/SoundsService',
     'Services/UtilsService',
     'Services/StorageService'], function(app, RulesService, GameEntityService, TileEntityService, SoundsService, UtilsService, StorageService){
+    console.log('services');
     app.factory('rules', RulesService)
         .factory('GameEntityService', GameEntityService)
         .factory('TileEntityService', TileEntityService)

@@ -7,13 +7,16 @@ define(['app',
     'Directives/ColorPointerDirective',
     'Directives/RainbowPartDirective',
     'Directives/PlaygroundDirective',
-    'Directives/ColoredDirective'],
-    function(app, TileDirective, RainbowDirective, ColorPointerDirective, RainbowPartDirective, PlaygroundDirective, ColoredDirective){
+    'Directives/ColoredDirective',
+    'Directives/ngReactRepeatDirective'],
+    function(app, TileDirective, RainbowDirective, ColorPointerDirective, RainbowPartDirective, PlaygroundDirective, ColoredDirective, RepeatDirective){
+        console.log('directives');
     app.directive('tile', TileDirective)
         //.directive('rainbow', RainbowDirective)
         .directive('colorPointer', ColorPointerDirective)
         .directive('rainbowPart', RainbowPartDirective)
         .directive('playground', PlaygroundDirective)
-        .directive('colored', ColoredDirective);
+        .directive('colored', ColoredDirective)
+        //.directive('repeat', ['reactDirective', RepeatDirective]);
 
 });

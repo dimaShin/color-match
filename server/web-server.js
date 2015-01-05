@@ -50,4 +50,27 @@ io.on('connection', function(socket){
     socket.on('animation', function(timestamp){
         console.log('animation starts at ', timestamp);
     })
+    socket.on('start_a', function(timestamp){
+        console.log('start analyzing line: ', timestamp);
+    })
+    socket.on('end_a', function(timestamp){
+        console.log('end analyzing line: ', timestamp);
+    })
+    socket.on('start_r', function(timestamp){
+        console.log('start rendering at: ', timestamp);
+    })
+    socket.on('start_getTile', function(timestamp){
+        console.log('start_getTile at ', timestamp);
+    })
+    socket.on('got_tile', function(timestamp){
+        console.log('got_tile at ', timestamp);
+    })
+    socket.on('no_tile', function(timestamp){
+        console.log('no_tile at ', timestamp);
+    })
+    socket.on('newIndex', function(data){
+        console.log('index changed to ', data[0], ' from ', data[1]);
+    })
+
+
 })

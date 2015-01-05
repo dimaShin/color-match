@@ -24,8 +24,17 @@ define([], function(){
             '#d48dbf',
             //'#004444',
             //'#066500'
-        ];
+            ],
+            tileSizes = [14,18,23];
         return {
+            getTileSize: function(){
+                console.log('getTileSize:', side)
+                switch(side){
+                    case '4': return tileSizes[2];
+                    case '5': return tileSizes[1];
+                    case '6': return tileSizes[0];
+                }
+            },
             getSize: function(){
                 return side;
             },

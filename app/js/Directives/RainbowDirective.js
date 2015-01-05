@@ -11,9 +11,9 @@ define([], function(){
                 game: '='
             },
             templateUrl: '/js/Directives/Templates/rainbow.html',
-            link: function($scope){
+            link: function rainbowLink($scope){
             },
-            controller: function($scope){
+            controller: function rainbowController($scope){
                 $scope.colors = rules.getColors();
             }
         }

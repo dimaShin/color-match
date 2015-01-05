@@ -8,20 +8,19 @@ define([], function(){
         return{
             restrict: 'C',
             scope: {
-                maxColorN: '=',
-                top: '='
+                maxColorN: '='
             },
-            link: function($scope, el){
+            link: function linkColorPointer($scope, el, attr){
                 var vwPerColor = 100 / (rules.getColors().length - 1);
                 $scope.$watch(
                     function maxColorWatcher($scope){
                         return $scope.maxColorN;
                     },
-                    function(newValue){
+                    function maxColHandler(newValue){
                         if(!newValue) newValue = 0;
                         el.css({
                             left: newValue * vwPerColor + '%',
-                            top: $scope.top
+                            top: attr.top + 'px'
                         })
                     }
                 )
