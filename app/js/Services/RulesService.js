@@ -28,11 +28,11 @@ define([], function(){
             tileSizes = [14,18,23];
         return {
             getTileSize: function(){
-                console.log('getTileSize:', side)
-                switch(side){
-                    case '4': return tileSizes[2];
-                    case '5': return tileSizes[1];
-                    case '6': return tileSizes[0];
+                switch(+side){
+                    case 4: return tileSizes[2];
+                    case 5: return tileSizes[1];
+                    case 6: return tileSizes[0];
+                    default : return 'def';
                 }
             },
             getSize: function(){

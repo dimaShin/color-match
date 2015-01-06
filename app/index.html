@@ -45,7 +45,7 @@
         </div>
 
         <div class="game-option" ng-click="toggleSound()">SOUND {{sound}}</div>
-        <react-repeat list="game.tilesCollection || []" difficulty="difficulty" numbers="numbers"></react-repeat>
+
     </div>
 
     <div class="game-header">
@@ -72,12 +72,7 @@
                 {{$index}}
             </div>
         </div>
-        <div ng-class="'tiles-container ' + difficulty">
-            <div class="tile animate" ng-repeat="tile in game.tilesCollection track by tile.count" tile="tile" numbers="numbers" ng-class="difficulty">
-                {{tile.index}}
-                <div class="next-tile" ng-style="{'background-color':tile.nextColor}" ng-if="tile.nextColor"></div>
-            </div>
-        </div>
+        <react-repeat list="game.tilesCollection || []"></react-repeat>
     </div>
     <!--<div class="console" ng-if="consoleVisibility" ng-click="consoleVisibility=false" >-->
         <!--<div class="debug-line" ng-repeat="line in debugging track by $index">{{line}}</div>-->

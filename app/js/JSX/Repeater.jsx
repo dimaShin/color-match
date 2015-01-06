@@ -25,9 +25,7 @@ define(['react'], function(React){
 
     return React.createClass({
         propTypes: {
-            list: React.PropTypes.array.isRequired,
-            difficulty: React.PropTypes.string.isRequired,
-            numbers: React.PropTypes.string.isRequired
+            list: React.PropTypes.array.isRequired
         },
 
         render: function() {
@@ -36,8 +34,8 @@ define(['react'], function(React){
 
             var scope = this.props.scope,
                 list = this.props.list,
-                difficulty = this.props.difficulty,
-                numbers = this.props.numbers,
+                difficulty = scope.difficulty,
+                numbers = scope.numbers,
                 classSet = React.addons.classSet,
                 classes = classSet({
                     easy: difficulty === 'easy',
@@ -58,11 +56,13 @@ define(['react'], function(React){
                     if(!positionsCache[difficulty].y[y]){
                         positionsCache[difficulty].y[y] = tileSize*y + (y*2)+1 + '%';
                     }
+
                     var tileStyle = {
                         backgroundColor: tile.color,
                         left: positionsCache[difficulty].y[y],
                         top: positionsCache[difficulty].x[x]
                     };
+                    console.log('tile: ', tileSize, scope);
                     return <div key={tile.count} className={classes} style={tileStyle}>{tile.index}</div>;
                 }),
                 containerClassString = 'tiles-container ' + difficulty;
