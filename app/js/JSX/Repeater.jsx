@@ -16,11 +16,20 @@ define(['react'], function(React){
             }
         };
 
-    function setFontSize(height, colorN){
-        if(colorN < 3) return height * .9 + 'px';
-        if(colorN < 6) return height * .7 + 'px';
-        if(colorN < 9) return height * .45 + 'px';
-        if(colorN < 12) return height * .25 + 'px';
+    function getFontSize(colorN, side){
+        var baseSize, measurementUnits;
+        if(window.innerWidth > 800){
+            baseSize = 600 / side * .75;
+            measurementUnits = 'px';
+        }else{
+            baseSize = 15;
+            measurementUnits = 'vw';
+        }
+
+        if(colorN < 3) return baseSize + measurementUnits;
+        if(colorN < 6) return baseSize * .8 + measurementUnits;
+        if(colorN < 9) return baseSize * .5 + measurementUnits;
+        if(colorN < 12) return baseSize * .3 + measurementUnits;
     }
 
     return React.createClass({
@@ -29,10 +38,7 @@ define(['react'], function(React){
         },
 
         render: function() {
-            console.log(this.props);
-
-
-            var scope = this.props.scope,
+            var scope = this.props.scope, innerHtml, innerStyle,
                 list = this.props.list,
                 difficulty = scope.difficulty,
                 numbers = scope.numbers,
@@ -60,10 +66,20 @@ define(['react'], function(React){
                     var tileStyle = {
                         backgroundColor: tile.color,
                         left: positionsCache[difficulty].y[y],
-                        top: positionsCache[difficulty].x[x]
+                        top: positionsCache[difficulty].x[x],
+                        fontSize: getFontSize(tile.colorN, scope.rules.getSize())
                     };
-                    console.log('tile: ', tileSize, scope);
-                    return <div key={tile.count} className={classes} style={tileStyle}>{tile.index}</div>;
+                    if(numbers === 'ON'){
+                        if(!numbersCache[tile.colorN + 1]) numbersCache[tile.colorN + 1] = Math.pow(2, tile.colorN + 1);
+                        innerHtml = numbersCache[tile.colorN + 1]
+                    }else{
+                        innerStyle = {
+                            backgroundColor: tile.getNextColor()
+                        }
+                        innerHtml = <div className="next-tile" style={innerStyle}></div>
+                    }
+
+                    return <div key={tile.count} className={classes} style={tileStyle}>{innerHtml}</div>;
                 }),
                 containerClassString = 'tiles-container ' + difficulty;
 

@@ -11,7 +11,7 @@ define(['app',
     'Directives/ngReactRepeatDirective'],
     function(app, TileDirective, RainbowDirective, ColorPointerDirective, RainbowPartDirective, PlaygroundDirective, ColoredDirective, RepeatDirective){
         console.log('directives');
-    app.directive('tile', TileDirective)
+    app//.directive('tile', TileDirective)
         //.directive('rainbow', RainbowDirective)
         .directive('colorPointer', ColorPointerDirective)
         .directive('rainbowPart', RainbowPartDirective)
