@@ -45,6 +45,7 @@
         </div>
 
         <div class="game-option" ng-click="toggleSound()">SOUND {{sound}}</div>
+        <react-repeat list="game.tilesCollection || []" difficulty="difficulty" numbers="numbers"></react-repeat>
     </div>
 
     <div class="game-header">

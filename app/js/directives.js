@@ -17,6 +17,6 @@ define(['app',
         .directive('rainbowPart', RainbowPartDirective)
         .directive('playground', PlaygroundDirective)
         .directive('colored', ColoredDirective)
-        //.directive('repeat', ['reactDirective', RepeatDirective]);
+        .directive('reactRepeat', ['reactDirective', RepeatDirective]);
 
 });
