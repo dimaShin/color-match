@@ -5,39 +5,39 @@ define([], function(){
 
     function StorageService(){
 
-        function localStorage(){
+        function hasLocalStorage(){
             return !!window.localStorage;
         }
 
         return {
             getRecordColor: function(){
-                if(localStorage()){
+                if(hasLocalStorage()){
                     return window.localStorage.getItem('recordColor');
                 }
             },
             setRecordColor: function(colorN){
-                if(localStorage()){
+                if(hasLocalStorage()){
                     window.localStorage['recordColor'] = colorN;
                 }
             },
             getRecordScore: function(){
-                if(localStorage()){
+                if(hasLocalStorage()){
                     return window.localStorage.getItem('recordScore');
                 }
 
             },
             setRecordScore: function(score){
-                if(localStorage()){
+                if(hasLocalStorage()){
                     window.localStorage['recordScore'] = score;
                 }
             },
             getDefaultDifficulty: function(){
-                if(localStorage()){
+                if(hasLocalStorage()){
                     return window.localStorage['difficulty'];
                 }
             },
             setDefaultDifficulty: function(diff){
-                if(localStorage()){
+                if(hasLocalStorage()){
                     window.localStorage['difficulty'] = diff;
                 }
             }

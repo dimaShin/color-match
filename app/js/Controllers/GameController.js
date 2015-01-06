@@ -14,7 +14,7 @@ define([''], function(){
             4: 'hard',
             5: 'normal',
             6: 'easy'
-        }
+        };
         $scope.$watch(
             function boardSizeWatcher($scope){
                 return $scope.boardSize;
@@ -32,7 +32,7 @@ define([''], function(){
                     $scope.easy = true;
                 }
             }
-        )
+        );
         $scope.boardSize = Math.pow(rules.getSize(), 2);
         $scope.bestScore = 0;
         $scope.addTile = function addTile(){
@@ -66,7 +66,7 @@ define([''], function(){
                     $scope.boardSize = 36;
                     break;
             }
-        }
+        };
 
         $scope.$watch(
             function boardSizeWatcher($scope){
@@ -74,16 +74,13 @@ define([''], function(){
             },
             function boardSizeHandler(){
                 $scope.difficulty = diffClasses[rules.getSize()];
+                if($scope.difficulty === 'easy') $scope.numbers = 'OFF';
             }
         );
         $scope.getCellClasses = function getCellClasses(index){
             var y = index % rules.getSize(),
                 x = (index - y) / rules.getSize();
             return 'x' + x + ' y' + y;
-            //{
-            //    x: 'x' + x,
-            //    y: 'y' + y
-            //};
         };
 
         $scope.$watch(
@@ -109,19 +106,19 @@ define([''], function(){
                     storage.setRecordColor(newValue);
                 }
             }
-        )
+        );
 
         $scope.endGame = function endGame(){
             $scope.game = {};
-        }
+        };
 
         $scope.toggleOptions = function toggleOptions(){
             $scope.optionsVisibility = !$scope.optionsVisibility;
-        }
+        };
 
         $scope.toggleSound = function toggleSound(){
             $scope.sound = ($scope.sound === 'ON') ? 'OFF' : 'ON';
-        }
+        };
         $(window).on("resize",function onResize(event){
             $scope.albumPage = window.innerHeight < window.innerWidth;
             $scope.$apply();
@@ -136,9 +133,12 @@ define([''], function(){
             function pageWidthHandler(newValue){
                 $scope.albumPage = newValue.width > newValue.height;
             }
-        )
+        );
         $scope.toggleNumbers = function toggleNumbers(){
-            $scope.numbers = ($scope.numbers === 'ON') ? 'OFF' : 'ON';
+            if($scope.difficulty === 'easy') {
+                $scope.numbers = 'OFF';
+            }else $scope.numbers = ($scope.numbers === 'ON') ? 'OFF' : 'ON';
+
         }
 
     }
