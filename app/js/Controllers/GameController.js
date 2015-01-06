@@ -41,9 +41,6 @@ define([''], function(){
         $scope.startGame = function startGame(){
             $scope.boardSize = Math.pow(rules.getSize(), 2);
             $scope.game = GameEntityService.getGame($scope, swipe);
-            //$scope.onRender(function onRender(){
-            //
-            //})
             $scope.game.start();
         };
         $scope.chooseDiff = function chooseDiff(){

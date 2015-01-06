@@ -22,7 +22,7 @@ define(['react'], function(React){
             baseSize = 600 / side * .75;
             measurementUnits = 'px';
         }else{
-            baseSize = 10;
+            baseSize = 40 / side;
             measurementUnits = 'vw';
         }
 
@@ -42,8 +42,7 @@ define(['react'], function(React){
                 list = this.props.list,
                 difficulty = scope.difficulty,
                 numbers = scope.numbers,
-                classSet = React.addons.classSet,
-                classes = classSet({
+                classes = React.addons.classSet({
                     easy: difficulty === 'easy',
                     normal: difficulty === 'normal',
                     hard: difficulty === 'hard',
@@ -52,7 +51,7 @@ define(['react'], function(React){
                 }),
                 tileSize = scope.rules.getTileSize(),
                 tiles = _.map(list, function(tile) {
-                    var index = (tile === 'number') ? tile : tile.index,
+                    var index = tile.index,
                         x = scope.utils.getPos(index).x,
                         y = scope.utils.getPos(index).y;
 
@@ -75,7 +74,7 @@ define(['react'], function(React){
                     }else{
                         innerStyle = {
                             backgroundColor: tile.getNextColor()
-                        }
+                        };
                         innerHtml = <div className="next-tile" style={innerStyle}></div>
                     }
 
