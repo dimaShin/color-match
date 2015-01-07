@@ -33,14 +33,13 @@ define([], function(){
                         moving = false;
                     },
                     move: function swipeMove(e){
-                        if(!moving){
+                        if(!moving && $scope.game.size){
                             var difX = startX - e.x,
                                 difY = startY - e.y,
                                 absX = Math.abs(difX),
                                 absY = Math.abs(difY);
                             if(absX > 50 || absY > 50){
                                 moving = true;
-                                if(!$scope.game.size || $scope.game.moving) return;
                                 if(absX > absY){
                                     difX > 0 ? $scope.game.move('left') : $scope.game.move('right');
                                 }else{
