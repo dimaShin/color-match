@@ -42,12 +42,13 @@ define(['react'], function(React){
                 list = this.props.list,
                 difficulty = scope.difficulty,
                 numbers = scope.numbers,
+                animationState = scope.animation,
                 classes = React.addons.classSet({
                     easy: difficulty === 'easy',
                     normal: difficulty === 'normal',
                     hard: difficulty === 'hard',
                     tile: true,
-                    animate: true
+                    animate: animationState === 'ON'
                 }),
                 tileSize = scope.rules.getTileSize(),
                 tiles = _.map(list, function(tile) {

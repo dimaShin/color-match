@@ -40,6 +40,16 @@ define([], function(){
                 if(hasLocalStorage()){
                     window.localStorage['difficulty'] = diff;
                 }
+            },
+            getAnimationState: function(){
+                if(hasLocalStorage()){
+                    return window.localStorage['animationState'];
+                }
+            },
+            setAnimationState: function(state){
+                if(hasLocalStorage()){
+                    window.localStorage['animationState'] = state;
+                }
             }
         }
     }

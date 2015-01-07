@@ -175,9 +175,9 @@ define([], function(){
             var game = this;
             if(this.scope.sound === 'ON'){
                 if(this.mergedTiles){
-                    SoundsService.play('move.ogg');
+                    SoundsService.play('move.wav');
                 }else{
-                    SoundsService.play('merge.ogg')
+                    SoundsService.play('merge.wav')
                 }
             }
             game.removeAbsorbed();

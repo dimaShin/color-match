@@ -28,7 +28,7 @@
 </head>
 <body>
 
-<div ng-controller="gameController" ng-cloak class="game-container wait-for-loading">
+<div ng-controller="gameController" ng-cloak class="game-container">
     <div class="while-loading text-center"><img src="img/loading.gif"/></div>
     <div class="container-fluid page-head text-center">
         <h1 colored>
@@ -45,6 +45,7 @@
         </div>
 
         <div class="game-option" ng-click="toggleSound()">SOUND {{sound}}</div>
+        <div class="game-option" ng-click="toggleAnimation()">ANIMATION {{animation}}</div>
 
     </div>
 

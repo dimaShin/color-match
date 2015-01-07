@@ -6,6 +6,7 @@ define([''], function(){
     function GameController($scope, rules, swipe, GameEntityService, storage){
         $scope.sound = 'ON';
         $scope.numbers = 'ON';
+        $scope.animation = storage.getAnimationState() || 'ON';
         $scope.game = {};
         $scope.recordScore = storage.getRecordScore() || 0;
         $scope.recordColor = storage.getRecordColor() || 1;
@@ -136,6 +137,10 @@ define([''], function(){
                 $scope.numbers = 'OFF';
             }else $scope.numbers = ($scope.numbers === 'ON') ? 'OFF' : 'ON';
 
+        }
+        $scope.toggleAnimation = function toggleAnimation(){
+            $scope.animation = ($scope.animation=== 'ON') ? "OFF" : 'ON';
+            storage.setAnimationState($scope.animation);
         }
 
     }
