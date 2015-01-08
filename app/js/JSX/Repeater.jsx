@@ -22,14 +22,15 @@ define(['react'], function(React){
             baseSize = 600 / side * .75;
             measurementUnits = 'px';
         }else{
-            baseSize = 40 / side;
+            baseSize = 70 / side;
             measurementUnits = 'vw';
         }
 
         if(colorN < 3) return baseSize + measurementUnits;
         if(colorN < 6) return baseSize * .8 + measurementUnits;
-        if(colorN < 9) return baseSize * .6 + measurementUnits;
-        if(colorN < 12) return baseSize * .4 + measurementUnits;
+        if(colorN < 9) return baseSize * .55 + measurementUnits;
+        if(colorN < 13) return baseSize * .4 + measurementUnits;
+        if(colorN >= 13) return baseSize * .3 + measurementUnits;
     }
 
     return React.createClass({
