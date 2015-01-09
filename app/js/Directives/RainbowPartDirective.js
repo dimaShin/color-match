@@ -12,7 +12,6 @@ define([], function(){
             },
             compile: function rainbowPartCompile(){
                 var colors = rules.getColors();
-
                 return {
                     pre: function preLinkRainbowPart($scope, el){
                         el.css({

@@ -8,7 +8,6 @@ define([], function(){
         Game.prototype.generateTile = function(needApply){
             var tileIndex = this.getTileIndex(),
                 tilesCount = this.tilesCollection.length, i;
-            //if(tileIndex === false) return this.endGame();
             for(i = 0; i < tilesCount; i++){
                 this.tilesCollection[i].alreadyGrows = false;
             }
@@ -19,7 +18,7 @@ define([], function(){
             if(!this.hasPossibleMoves()){
                 return this.endGame();
             }
-        }
+        };
 
         Game.prototype.hasPossibleMoves = function(){
             var tile, i, x, y, newIndex,
@@ -52,8 +51,7 @@ define([], function(){
         Game.prototype.placeTile = function(tile){
             this.tilesCollection.push(tile);
             this.setIndex(tile, tile.index);
-            //this.busyCells[tile.index] = tile;
-            //this.busyCellsCount++;
+            this.renderer.showTile(tile);
         }
 
         Game.prototype.getTileIndex = function(){
@@ -68,7 +66,6 @@ define([], function(){
         Game.prototype.endGame = function(){
             if(this.scope.sound === 'ON') SoundsService.play('game-over.ogg');
             this.gameOver = true;
-            //this.scope.$apply();
         }
 
 
@@ -107,13 +104,18 @@ define([], function(){
             }
 
             if(this.movedTiles || this.mergedTiles){
-                this.render();
-                game.generateTile(1);
+                var game = this;
+                this.renderer.showMove(this.tilesCollection);
+                setTimeout(function(){
+                    game.render();
+                    game.removeAbsorbed()
+                    game.generateTile(1);
+                }, 200)
+
 
             }else if(this.scope.sound === 'ON'){
                 SoundsService.play('dry-shot.ogg');
             }
-            //console.log('end move: ', this.tilesMap);
         }
 
         Game.prototype.analyzeLine = function(line){
@@ -180,7 +182,8 @@ define([], function(){
                     SoundsService.play('merge.wav')
                 }
             }
-            game.removeAbsorbed();
+            //this.renderer.showMove(this.tilesCollection);
+            //game.removeAbsorbed();
         };
 
         Game.prototype.setIndex = function(tile, newIndex, oldIndex){
@@ -193,7 +196,9 @@ define([], function(){
             this.tilesMap[newIndex] = tile;
         }
 
-        function Game(scope){
+        function Game(scope, renderer){
+            console.log(renderer);
+            this.renderer = renderer;
             this.tilesCollection = [];
             this.busyCellsCount = 0;
             this.tilesMap = {};
@@ -203,7 +208,7 @@ define([], function(){
             this.matrix = [];
             this.maxColorN = 0;
             for(var i = 0; i < this.size; i++){
-                this.matrix.push(new Array());
+                this.matrix.push([]);
                 for(var j = 0; j < this.size; j++){
                     this.matrix[i][j] = i * this.size + j;
                 }
@@ -212,8 +217,8 @@ define([], function(){
 
 
         return {
-            getGame: function(scope){
-                return new Game(scope);
+            getGame: function(scope, renderer){
+                return new Game(scope, renderer);
             }
         }
     }

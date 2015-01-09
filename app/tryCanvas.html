@@ -3,35 +3,51 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <script src="https://code.createjs.com/easeljs-0.8.0.min.js"></script>
+    <script src="https://code.createjs.com/tweenjs-0.6.0.min.js"></script>
 </head>
 <style>
-    canvas{
-        width: 600px;
-        height: 600px;
-    }
+
 </style>
+
 <body>
-
-
-<canvas id='example'>Обновите браузер</canvas>
-
-
-
-
+<canvas id="demoCanvas" width="500" height="500"></canvas>
+</body>
 
 <script>
-    var example = document.getElementById("example"),
-            ctx     = example.getContext('2d');
-    example.width  = 640;
-    example.height = 480;
-    ctx.strokeRect(15, 15, 266, 266);
-    ctx.strokeRect(18, 18, 260, 260);
-    ctx.fillRect(20, 20, 256, 256);
-    for (i = 0; i < 8; i += 2)
-        for (j = 0; j < 8; j += 2) {
-            ctx.clearRect(20 + i * 32, 20 + j * 32, 32, 32);
-            ctx.clearRect(20 + (i + 1) * 32, 20 + (j + 1) * 32, 32, 32);
-        }
+    (function init() {
+        var stage = new createjs.Stage("demoCanvas");
+        var circles = [];
+
+        circles.push(new createjs.Shape());
+        circles[0].graphics.beginFill("#ccc").drawRect(0, 0, 50, 50);
+        circles[0].x = 0;
+        circles[0].y = 0;
+        stage.addChild(circles[0]);
+        circles.push(new createjs.Shape());
+        circles[1].graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 50, 50);
+        circles[1].x = 150;
+        circles[1].y = 150;
+        stage.addChild(circles[1]);
+        circles.push(new createjs.Shape());
+        circles[2].graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 50, 50);
+        circles[2].x = 250;
+        circles[2].y = 250;
+        stage.addChild(circles[2]);
+        circles.push(new createjs.Shape());
+        circles[3].graphics.beginFill("DeepSkyBlue").drawRect(0, 0, 50, 50);
+        circles[3].x = 350;
+        circles[3].y = 350;
+        stage.addChild(circles[3]);
+        console.log(stage);
+//        stage.removeChild(circles[3]);
+//        stage.update();
+        createjs.Tween.get(circles[0]).to({x: 400}, 1000, createjs.Ease.getPowInOut(4));
+        createjs.Tween.get(circles[1]).to({x: 400}, 1000, createjs.Ease.getPowInOut(4));
+        createjs.Tween.get(circles[2]).to({x: 400}, 1000, createjs.Ease.getPowInOut(4));
+        createjs.Tween.get(circles[3]).to({x: 400}, 1000, createjs.Ease.getPowInOut(4));
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.addEventListener("tick", stage);
+    })()
 </script>
-</body>
 </html>

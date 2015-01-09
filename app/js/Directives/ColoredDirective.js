@@ -3,7 +3,7 @@
  */
 define([], function() {
 
-    function ColoredDirective(rules) {
+    function ColoredDirective(rules, storage) {
 
         return{
             restrict: 'A',
@@ -15,15 +15,19 @@ define([], function() {
                 return{
                     pre: function prelinkColored($scope, el){
                         var colors = rules.getColors(),
+                            maxColor = +storage.getRecordColor() || 1,
                             div = document.createElement('div'),
-                            span = document.createElement('span'),
-                            text = el.html().trim(), color;
+                            span = document.createElement('span'), spanClone,
+                            text = el.html().trim(), color,
+                            colorN = 0;
                         for(var i in text){
-                            color = colors[i] ? colors[i] : colors[i % colors.length];
-                            $(span.cloneNode())
-                                .css('color', color)
-                                .html(text[i])
-                                .appendTo(div);
+                            spanClone = $(span.cloneNode()).html(text[i]);
+                            if(text[i] !== ' '){
+                                color = colors[colorN++];
+                                if(colorN > maxColor) colorN = 0;
+                                spanClone.css('color', color);
+                            }
+                            spanClone.appendTo(div);
                         }
                         el.html(div);
                     }

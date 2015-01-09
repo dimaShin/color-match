@@ -3,19 +3,20 @@
  */
 requirejs.config({
     paths: {
-        bootstrap: '_lib/bootstrap',
+        bootstrap: '_lib/bootstrap.min',
         underscore: '_lib/underscore.min',
-        jquery: '_lib/jquery',
+        jquery: '_lib/jquery.min',
         angular: '_lib/angular.min',
         ngAnimate: '_lib/angular-animate.min',
         ngTouch: '_lib/angular-touch.min',
         swipe: '_lib/angular-swipe.min',
-        socketIO: 'https://cdn.socket.io/socket.io-1.2.1',
-        react: '_lib/react-with-addons',
+        react: '_lib/react-with-addons.min',
         ngReact: '_lib/ngReact',
         jsx: '_lib/jsx',
         JSXTransformer: "_lib/JSXTransformer",
-        text: '_lib/text'
+        text: '_lib/text',
+        easelJs: 'https://code.createjs.com/easeljs-0.8.0.min',
+        tweenJs: 'https://code.createjs.com/tweenjs-0.6.0.min'
     },
     jsx: {
         fileExtension: '.jsx'
@@ -46,19 +47,17 @@ requirejs.config({
         react: {
             deps: ['JSXTransformer', 'underscore']
         },
-        jsx: {
-            //deps: ['JSXTransformer', 'text'],
+        easelJs: {
+            deps: ['tweenJs'],
+            exports: 'createjs'
         }
-
     },
     waitSeconds: 0
 });
 
 require(['app'], function(){
-    require(['injector'], function(){
-        console.log('init');
+    require(['services', 'controllers', 'filters', 'directives'], function(){
         angular.bootstrap(document.body, ['colorMatch']);
         $('div.while-loading').animate({opacity: 0, 'z-index': 0}, 100);
     });
-
 });

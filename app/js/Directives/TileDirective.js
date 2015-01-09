@@ -1,10 +1,9 @@
 /**
  * Created by iashind on 16.12.14.
  */
-define(['socketIO'], function(io){
+define([], function(){
 
     function TileDirective(rules, utils){
-        var socket = io.connect();
 
 
         return {
@@ -104,7 +103,6 @@ define(['socketIO'], function(io){
                             function indexHandler(newValue, oldValue){
 
                                 if(newValue === undefined || newValue === oldValue) return;
-                                socket.emit('newIndex', [newValue, oldValue]);
                                 var oldX = utils.getPos(oldValue).x,
                                     oldY = utils.getPos(oldValue).y,
                                     newX = utils.getPos(newValue).x,

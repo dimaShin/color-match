@@ -6,22 +6,22 @@
     <link href="css/desktop.css" rel="stylesheet" media="(min-width:800px)" />
     <link href="css/tile-position.css" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/favicon-160x160.png" sizes="160x160">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicons/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicons/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
     <meta name="msapplication-TileColor" content="#ffc40d">
-    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
     <meta charset="UTF-8">
     <title>Color Match</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
@@ -38,9 +38,9 @@
     <img class="game-options-img" src="img/game-options.png" ng-click="toggleOptions()" />
     <div class="game-options" ng-if="optionsVisibility">
         <div ng-if="!game.size">
-            <div class="game-option" ng-class="{active: hard}" ng-click="setDifficulty('hard')">HARD</div>
-            <div class="game-option" ng-class="{active: normal}" ng-click="setDifficulty('normal')">NORMAL</div>
-            <div class="game-option" ng-class="{active: easy}" ng-click="setDifficulty('easy')">EASY</div>
+            <div class="game-option" ng-class="{active: difficulty==='hard'}" ng-click="setDifficulty('hard')">HARD</div>
+            <div class="game-option" ng-class="{active: difficulty==='normal'}" ng-click="setDifficulty('normal')">NORMAL</div>
+            <div class="game-option" ng-class="{active: difficulty==='easy'}" ng-click="setDifficulty('easy')">EASY</div>
             <div class="game-option" ng-click="toggleNumbers()">NUMBERS {{numbers}}</div>
         </div>
 
@@ -67,11 +67,14 @@
         </div>
     </div>
     <div class="playground shadow" game="game">
+        <canvas class="tiles-container" id="tilesBox" width="596px" height="596px"></canvas>
         <img src="img/game-over.png" class="game-over-img" ng-if="game.gameOver">
+
         <div ng-class="'tiles-container ' + difficulty">
-            <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index)"></div>
+            <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index)">{{$index}}</div>
         </div>
-        <react-repeat list="game.tilesCollection || []"></react-repeat>
+        <!--<react-repeat list="game.tilesCollection || []"></react-repeat>-->
+
     </div>
     <!--<div class="console" ng-if="consoleVisibility" ng-click="consoleVisibility=false" >-->
         <!--<div class="debug-line" ng-repeat="line in debugging track by $index">{{line}}</div>-->

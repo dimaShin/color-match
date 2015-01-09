@@ -3,7 +3,5 @@
  */
 define(['ngAnimate', 'swipe', 'ngReact'], function(){
     var app = angular.module('colorMatch', ['ngAnimate', 'swipe', 'ngTouch', 'react']);
-
-    console.log('app', app);
     return app;
 })

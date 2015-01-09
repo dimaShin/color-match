@@ -25,8 +25,17 @@ define([], function(){
             //'#004444',
             //'#066500'
             ],
-            tileSizes = [14,18,23];
+            tileSizes = [14,18,23],
+            diffClasses = {
+                4: 'hard',
+                5: 'normal',
+                6: 'easy'
+            };
+
         return {
+            getDiffName: function getDiffName(){
+                return diffClasses[side];
+            },
             getTileSize: function(){
                 switch(+side){
                     case 4: return tileSizes[2];

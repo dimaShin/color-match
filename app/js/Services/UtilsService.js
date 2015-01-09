@@ -3,7 +3,17 @@
  */
 define([], function(){
 
+    var diffClasses = {
+        4: 'hard',
+        5: 'normal',
+        6: 'easy'
+    };
+
     function Utils(rules){
+
+
+
+
 
         function getPos(index){
             var y = index % rules.getSize(),

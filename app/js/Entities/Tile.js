@@ -10,7 +10,6 @@ define([], function(){
             this.count = count;
             this.colorN = (Math.floor((Math.random() * 10)) % 2 === 0) ? 0 : 1;
             this.color = rules.getColors()[this.colorN];
-            //this.moving = false;
         }
 
         Tile.prototype.growsUp = function(){

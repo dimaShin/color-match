@@ -1,52 +1,28 @@
 /**
  * Created by iashind on 16.12.14.
  */
-define([''], function(){
+define(['easelJs'], function(){
 
-    function GameController($scope, rules, swipe, GameEntityService, storage){
-        $scope.sound = 'ON';
-        $scope.numbers = 'ON';
-        $scope.animation = storage.getAnimationState() || 'ON';
-        $scope.game = {};
-        $scope.recordScore = storage.getRecordScore() || 0;
-        $scope.recordColor = storage.getRecordColor() || 1;
-        $scope.colors = rules.getColors();
-        var diffClasses = {
-            4: 'hard',
-            5: 'normal',
-            6: 'easy'
-        };
-        $scope.$watch(
-            function boardSizeWatcher($scope){
-                return $scope.boardSize;
-            },
-            function(newValue){
-                if(newValue === 16){
-                    $scope.easy = $scope.normal = false;
-                    $scope.hard = true;
 
-                }else if(newValue === 25){
-                    $scope.easy = $scope.hard = false;
-                    $scope.normal = true;
-                }else if(newValue === 36){
-                    $scope.normal = $scope.hard = false;
-                    $scope.easy = true;
-                }
-            }
-        );
-        $scope.boardSize = Math.pow(rules.getSize(), 2);
-        $scope.bestScore = 0;
-        $scope.addTile = function addTile(){
-            $scope.game.generateTile();
-        };
+    function GameController($scope, rules, swipe, GameEntityService, storage, renderer){
+
+        function initializeScope($scope){
+            $scope.sound = 'ON';
+            $scope.numbers = 'ON';
+            $scope.animation = storage.getAnimationState() || 'ON';
+            $scope.game = {};
+            $scope.recordScore = storage.getRecordScore() || 0;
+            $scope.recordColor = storage.getRecordColor() || 1;
+            $scope.colors = rules.getColors();
+            $scope.boardSize = Math.pow(rules.getSize(), 2);
+            $scope.bestScore = 0;
+            $scope.setDifficulty(storage.getDefaultDifficulty() || 5);
+        }
+
         $scope.startGame = function startGame(){
-            $scope.boardSize = Math.pow(rules.getSize(), 2);
-            $scope.game = GameEntityService.getGame($scope, swipe);
+            //$scope.boardSize = Math.pow(rules.getSize(), 2);
+            $scope.game = GameEntityService.getGame($scope, renderer);
             $scope.game.start();
-        };
-        $scope.chooseDiff = function chooseDiff(){
-            rules.setSize(rules.getSize() + 1);
-            $scope.boardSize = Math.pow(rules.getSize(), 2);
         };
 
         $scope.setDifficulty = function setDifficulty(diff){
@@ -64,17 +40,11 @@ define([''], function(){
                     $scope.boardSize = 36;
                     break;
             }
+            $scope.difficulty = rules.getDiffName();
+            if($scope.difficulty === 'easy') $scope.numbers = 'OFF';
+            console.log(1);
         };
 
-        $scope.$watch(
-            function boardSizeWatcher($scope){
-                return $scope.boardSize;
-            },
-            function boardSizeHandler(){
-                $scope.difficulty = diffClasses[rules.getSize()];
-                if($scope.difficulty === 'easy') $scope.numbers = 'OFF';
-            }
-        );
         $scope.getCellClasses = function getCellClasses(index){
             var y = index % rules.getSize(),
                 x = (index - y) / rules.getSize();
@@ -105,22 +75,6 @@ define([''], function(){
                 }
             }
         );
-
-        $scope.endGame = function endGame(){
-            $scope.game = {};
-        };
-
-        $scope.toggleOptions = function toggleOptions(){
-            $scope.optionsVisibility = !$scope.optionsVisibility;
-        };
-
-        $scope.toggleSound = function toggleSound(){
-            $scope.sound = ($scope.sound === 'ON') ? 'OFF' : 'ON';
-        };
-        $(window).on("resize",function onResize(event){
-            $scope.albumPage = window.innerHeight < window.innerWidth;
-            $scope.$apply();
-        });
         $scope.$watchCollection(
             function pageWidthWatcher(){
                 return {
@@ -132,6 +86,23 @@ define([''], function(){
                 $scope.albumPage = newValue.width > newValue.height;
             }
         );
+        $scope.endGame = function endGame(){
+            $scope.game = {};
+            renderer.clearCanvas();
+        };
+
+        $scope.toggleOptions = function toggleOptions(){
+            $scope.optionsVisibility = !$scope.optionsVisibility;
+        };
+
+        $scope.toggleSound = function toggleSound(){
+            $scope.sound = ($scope.sound === 'ON') ? 'OFF' : 'ON';
+        };
+        $(window).on("resize",function onResize(){
+            $scope.albumPage = window.innerHeight < window.innerWidth;
+            $scope.$apply();
+        });
+
         $scope.toggleNumbers = function toggleNumbers(){
             if($scope.difficulty === 'easy') {
                 $scope.numbers = 'OFF';
@@ -142,6 +113,9 @@ define([''], function(){
             $scope.animation = ($scope.animation=== 'ON') ? "OFF" : 'ON';
             storage.setAnimationState($scope.animation);
         }
+
+        initializeScope($scope);
+
 
     }
 

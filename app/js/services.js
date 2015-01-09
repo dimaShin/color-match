@@ -6,12 +6,13 @@ define(['app', 'Services/RulesService',
     'Entities/Tile',
     'Services/SoundsService',
     'Services/UtilsService',
-    'Services/StorageService'], function(app, RulesService, GameEntityService, TileEntityService, SoundsService, UtilsService, StorageService){
-    console.log('services');
+    'Services/StorageService',
+    'Services/RenderService'], function(app, RulesService, GameEntityService, TileEntityService, SoundsService, UtilsService, StorageService, RenderService){
     app.factory('rules', RulesService)
         .factory('GameEntityService', GameEntityService)
         .factory('TileEntityService', TileEntityService)
         .factory('SoundsService', SoundsService)
         .factory('utils', UtilsService)
         .factory('storage', StorageService)
+        .factory('renderer', RenderService)
 })
