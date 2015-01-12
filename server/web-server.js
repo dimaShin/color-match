@@ -14,7 +14,9 @@ function handler (req, res) {
         gif: 'image/gif',
         png: 'image/png',
         html: 'text/html',
-        ogg: 'audio/ogg'
+        ogg: 'audio/ogg',
+        wav: 'audio/wav',
+        jsx: 'text/jsx'
     };
     //if(url.match(/favicon/)) return;
     if(!url.match(/\.\w{1,4}$/i)){

@@ -44,8 +44,8 @@
             <div class="game-option" ng-click="toggleNumbers()">NUMBERS {{numbers}}</div>
         </div>
 
-        <div class="game-option" ng-click="toggleSound()">SOUND {{sound}}</div>
-        <div class="game-option" ng-click="toggleAnimation()">ANIMATION {{animation}}</div>
+        <div class="game-option" ng-click="toggleSound()">SOUND {{sound ? 'ON' : 'OFF'}}</div>
+        <div class="game-option" ng-click="toggleAnimation()">ANIMATION {{animation ? 'ON' : 'OFF'}}</div>
 
     </div>
 
@@ -67,8 +67,9 @@
         </div>
     </div>
     <div class="playground shadow" game="game">
-        <canvas class="tiles-container" id="tilesBox" width="596px" height="596px"></canvas>
         <img src="img/game-over.png" class="game-over-img" ng-if="game.gameOver">
+        <canvas class="tiles-container" id="tilesBox" width="596px" height="596px"></canvas>
+
 
         <div ng-class="'tiles-container ' + difficulty">
             <div class="cell" ng-repeat="n in [] | range:boardSize" ng-class="difficulty +' '+ getCellClasses($index)">{{$index}}</div>

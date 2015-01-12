@@ -2,22 +2,18 @@
  * Created by iashind on 16.12.14.
  */
 define([], function(){
-    function GameService(TileEntityService, SoundsService, utils, $timeout){
+    function GameService(TileEntityService, SoundsService, utils){
         var generatedTiles = 0;
 
         Game.prototype.generateTile = function(needApply){
-            var tileIndex = this.getTileIndex(),
-                tilesCount = this.tilesCollection.length, i;
-            for(i = 0; i < tilesCount; i++){
-                this.tilesCollection[i].alreadyGrows = false;
-            }
-            this.movedTiles = false;
-            this.mergedTiles = false;
+
+            var tileIndex = this.getNewTileIndex();
+
             this.placeTile(TileEntityService.getTile(tileIndex, ++generatedTiles));
-            if(needApply) this.scope.$apply();
             if(!this.hasPossibleMoves()){
                 return this.endGame();
             }
+            if(needApply) this.scope.$apply();
         };
 
         Game.prototype.hasPossibleMoves = function(){
@@ -45,6 +41,7 @@ define([], function(){
                     if(this.getTile(newIndex).colorN === tile.colorN) return true;
                 }
             }
+            console.log('game');
             return false;
         };
 
@@ -54,7 +51,7 @@ define([], function(){
             this.renderer.showTile(tile);
         }
 
-        Game.prototype.getTileIndex = function(){
+        Game.prototype.getNewTileIndex = function(){
             var index;
             if(this.tilesCollection.length === this.cellCount) return false;
             do{
@@ -64,8 +61,10 @@ define([], function(){
         };
 
         Game.prototype.endGame = function(){
-            if(this.scope.sound === 'ON') SoundsService.play('game-over.ogg');
+            console.log('over');
+            if(this.playSound) SoundsService.play('game-over.ogg');
             this.gameOver = true;
+            this.scope.$apply();
         }
 
 
@@ -102,18 +101,13 @@ define([], function(){
             for(i = 0, length = grid.length; i < length; i++){
                 this.analyzeLine(grid[i]);
             }
-
             if(this.movedTiles || this.mergedTiles){
                 var game = this;
                 this.renderer.showMove(this.tilesCollection);
                 setTimeout(function(){
-                    game.render();
-                    game.removeAbsorbed()
-                    game.generateTile(1);
-                }, 200)
-
-
-            }else if(this.scope.sound === 'ON'){
+                    game.next();
+                }, this.renderer.getDelay());
+            }else if(this.playSound){
                 SoundsService.play('dry-shot.ogg');
             }
         }
@@ -173,17 +167,21 @@ define([], function(){
             return this.tilesMap[index];
         }
 
-        Game.prototype.render = function(){
-            var game = this;
-            if(this.scope.sound === 'ON'){
+        Game.prototype.next = function(){
+            if(this.playSound){
                 if(this.mergedTiles){
                     SoundsService.play('move.wav');
                 }else{
                     SoundsService.play('merge.wav')
                 }
             }
-            //this.renderer.showMove(this.tilesCollection);
-            //game.removeAbsorbed();
+            this.removeAbsorbed();
+            for(var i = 0; i < this.tilesCollection.length; i++){
+                this.tilesCollection[i].alreadyGrows = false;
+            }
+            this.movedTiles = false;
+            this.mergedTiles = false;
+            this.generateTile(1);
         };
 
         Game.prototype.setIndex = function(tile, newIndex, oldIndex){
@@ -197,16 +195,17 @@ define([], function(){
         }
 
         function Game(scope, renderer){
-            console.log(renderer);
-            this.renderer = renderer;
-            this.tilesCollection = [];
-            this.busyCellsCount = 0;
-            this.tilesMap = {};
-            this.scope = scope;
-            this.cellCount = scope.boardSize;
-            this.size = Math.sqrt(scope.boardSize);
-            this.matrix = [];
-            this.maxColorN = 0;
+            this.renderer           = renderer;
+            this.tilesCollection    = [];
+            this.busyCellsCount     = 0;
+            this.tilesMap           = {};
+            this.scope              = scope;
+            this.playSound          = scope.sound;
+            this.cellCount          = scope.boardSize;
+            this.size               = Math.sqrt(scope.boardSize);
+            this.matrix             = [];
+            this.maxColorN          = 0;
+
             for(var i = 0; i < this.size; i++){
                 this.matrix.push([]);
                 for(var j = 0; j < this.size; j++){

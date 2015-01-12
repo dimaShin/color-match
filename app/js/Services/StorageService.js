@@ -43,12 +43,13 @@ define([], function(){
             },
             getAnimationState: function(){
                 if(hasLocalStorage()){
-                    return window.localStorage['animationState'];
+                    console.log(window.localStorage['animationState'] === '1');
+                    return window.localStorage['animationState'] === '1';
                 }
             },
             setAnimationState: function(state){
                 if(hasLocalStorage()){
-                    window.localStorage['animationState'] = state;
+                    window.localStorage['animationState'] = state ? 1 : 0;
                 }
             }
         }

@@ -4,19 +4,20 @@
 define(['easelJs'], function(){
 
 
-    function GameController($scope, rules, swipe, GameEntityService, storage, renderer){
+    function GameController($scope, rules, GameEntityService, storage, renderer){
 
         function initializeScope($scope){
-            $scope.sound = 'ON';
-            $scope.numbers = 'ON';
-            $scope.animation = storage.getAnimationState() || 'ON';
-            $scope.game = {};
-            $scope.recordScore = storage.getRecordScore() || 0;
-            $scope.recordColor = storage.getRecordColor() || 1;
-            $scope.colors = rules.getColors();
-            $scope.boardSize = Math.pow(rules.getSize(), 2);
-            $scope.bestScore = 0;
+            $scope.sound        = true;
+            $scope.numbers      = 'ON';
+            $scope.animation    = storage.getAnimationState() === undefined ? true : !!storage.getAnimationState(); //value in older versions wasn't boolean
+            $scope.game         = {};
+            $scope.recordScore  = storage.getRecordScore() || 0;
+            $scope.recordColor  = storage.getRecordColor() || 1;
+            $scope.colors       = rules.getColors();
+            $scope.boardSize    = Math.pow(rules.getSize(), 2);
+            $scope.bestScore    = 0;
             $scope.setDifficulty(storage.getDefaultDifficulty() || 5);
+            renderer.setDelay($scope.animation);
         }
 
         $scope.startGame = function startGame(){
@@ -96,7 +97,8 @@ define(['easelJs'], function(){
         };
 
         $scope.toggleSound = function toggleSound(){
-            $scope.sound = ($scope.sound === 'ON') ? 'OFF' : 'ON';
+            $scope.sound = !$scope.sound;
+            if($scope.game.size) $scope.game.playSound = $scope.sound;
         };
         $(window).on("resize",function onResize(){
             $scope.albumPage = window.innerHeight < window.innerWidth;
@@ -110,8 +112,9 @@ define(['easelJs'], function(){
 
         }
         $scope.toggleAnimation = function toggleAnimation(){
-            $scope.animation = ($scope.animation=== 'ON') ? "OFF" : 'ON';
+            $scope.animation = !$scope.animation;
             storage.setAnimationState($scope.animation);
+            renderer.setDelay($scope.animation);
         }
 
         initializeScope($scope);

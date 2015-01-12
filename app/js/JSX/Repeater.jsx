@@ -55,16 +55,15 @@ define(['react'], function(React){
                 tiles = _.map(list, function(tile) {
                     var index = tile.index,
                         x = scope.utils.getPos(index).x,
-                        y = scope.utils.getPos(index).y;
+                        y = scope.utils.getPos(index).y,
+                        tileStyle;
 
-                    if(!positionsCache[difficulty].x[x]){
+                    if(!positionsCache[difficulty].x[x])
                         positionsCache[difficulty].x[x] = tileSize*x + (x*2)+1 + '%';
-                    }
-                    if(!positionsCache[difficulty].y[y]){
+                    if(!positionsCache[difficulty].y[y])
                         positionsCache[difficulty].y[y] = tileSize*y + (y*2)+1 + '%';
-                    }
 
-                    var tileStyle = {
+                    tileStyle = {
                         backgroundColor: tile.color,
                         left: positionsCache[difficulty].y[y],
                         top: positionsCache[difficulty].x[x],

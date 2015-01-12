@@ -68,6 +68,7 @@ body{
     width: 100%;
     height: 100%;
     -webkit-touch-callout: none;
+    -khtml-user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -184,11 +185,11 @@ a.button:hover{
     margin-left: -5px;
 }
 .game-over-img{
-    width: 90%;
+    width: 100%;
     position: absolute;
     top: 30%;
-    left: 50%;
-    margin-left: -45%;
+    left: 0;
+    /*margin-left: -45%;*/
     z-index: 90;
 
 }
